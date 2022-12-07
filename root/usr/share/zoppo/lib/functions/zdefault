@@ -1,0 +1,63 @@
+case "$1" in
+  -[abs])
+    (( $+4 )) || {
+      warn 'zdefault: not enough arguments'
+      return 1
+    }
+
+    zstyle -t "$2" "$3"
+    (( $? == 2 )) && zstyle "$2" "$3" "${(@)argv[5,-1]}"
+    zstyle "${(@)argv[1,4]}"
+    ;;
+
+  -t)
+    (( $# != 4 )) && {
+      warn 'zdefault: wrong number of arguments'
+      return 1
+    }
+
+    zstyle -t "$2" "$3"
+    (( $? == 2 )) && zstyle "$2" "$3" "$4"
+
+    zstyle -t "$2" "$3"
+    ;;
+
+  +a)
+    (( $+4 )) || {
+      warn 'zdefault: not enough arguments'
+      return 1
+    }
+
+    local -a array
+    zstyle -a "$2" "$3" array
+    array=("$array[@]" "${(@)argv[4,-1]}")
+    zstyle "$2" "$3" "$array[@]"
+    ;;
+
+  +s)
+    (( $# != 4 )) && {
+      warn 'zdefault: wrong number of arguments'
+      return 1
+    }
+
+    local str
+    zstyle -s "$2" "$3" str
+    str="${str}${4}"
+    zstyle "$2" "$3" "$str"
+    ;;
+
+  -*) warn "zdefault: invalid option: $1"
+    return 1
+    ;;
+
+  *)
+    (( $+2 )) || {
+      warn 'zdefault: not enough arguments'
+      return 1
+    }
+
+    zstyle -t "$1" "$2"
+    (( $? == 2 )) && zstyle "$@"
+esac
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

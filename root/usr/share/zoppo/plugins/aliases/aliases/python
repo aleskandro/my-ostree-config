@@ -1,0 +1,12 @@
+alias py='python'
+
+# pythonz
+alias pyz='pythonz'
+alias pyzc='pythonz cleanup'
+alias pyzi='pythonz install'
+alias pyzl='pythonz list'
+alias pyzL='pythonz list -a'
+alias pyzu='pythonz update'
+alias pyzx='pythonz uninstall'
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

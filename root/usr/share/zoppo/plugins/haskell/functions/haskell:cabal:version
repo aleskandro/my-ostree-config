@@ -1,0 +1,7 @@
+if ! is-callable cabal; then
+  return 1
+fi
+
+cabal -V | head -n 1 | tr " " "\n" | tail -n 1
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

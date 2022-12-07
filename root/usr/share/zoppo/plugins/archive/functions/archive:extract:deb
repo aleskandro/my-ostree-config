@@ -1,0 +1,34 @@
+(( $+commands[ar] )) || {
+  warn 'extract: you have to install ar'
+  return 1
+}
+
+(( $+commands[tar] )) || {
+  warn 'extract: you have to install tar'
+  return 1
+}
+
+local rdir="${1:t:r}"
+local rpath="${1:a}"
+
+mkdir -p "$rdir/control"
+mkdir -p "$rdir/data"
+
+local v
+(( $verbose )) && v='v'
+
+cd "$rdir"
+ar ${v}x "$rpath"
+
+cd control
+tar xz${v}f ../control.tar.gz
+
+cd ../data
+tar xz${v}f ../data.tar.gz
+
+cd ..
+rm *.tar.gz debian-binary
+
+cd ..
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

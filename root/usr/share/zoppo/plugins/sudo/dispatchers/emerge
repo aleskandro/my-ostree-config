@@ -1,0 +1,16 @@
+function sudo:dispatch:emerge {
+  while (( $# != 0 )); do
+    case "$1" in
+      --color) shift 2 ;;
+
+      -*p*|--pretend|-*s*|--search|--info|-*V*|--version)
+        return 1 ;;
+
+      *) shift ;;
+    esac
+  done
+}
+
+sudo:dispatch sudo:dispatch:emerge emerge
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

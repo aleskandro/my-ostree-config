@@ -1,0 +1,38 @@
+# I Don't Know What I'm Doing {{{
+zstyle ':zoppo:update' auto 'yes'
+zstyle ':zoppo:update' force 'yes'
+# }}}
+
+# I Know What I'm Doing {{{
+# zstyle ':zoppo:update' auto 'no'
+
+# this adds your own plugin directory to the path
+# zdefault +a ':zoppo:path' plugins "$HOME/my/plugins"
+
+# this adds your own prompt directory to the path
+# zdefault +a ':zoppo:path' prompts "$HOME/my/prompts"
+# }}}
+
+# set editor mode to 'emacs' or 'vi'
+zstyle ':zoppo:plugin:editor' mode 'emacs'
+
+# autoconvert .. to parent directory
+zstyle ':zoppo:plugin:editor' dot-expansion 'yes'
+
+# set case-sensitivity for completion, history lookup, etc
+zstyle ':zoppo:*:*' case-sensitive 'no'
+
+# color output (auto set to 'no' on dumb terminals)
+zstyle ':zoppo:*:*' color 'yes'
+
+# plugins to load
+zstyle ':zoppo:load' plugins 'utility' 'completion' 'editor' 'history' 'archive' 'sudo' \
+  'fasd' 'syntax-highlight' 'history-substring-search' # comment this line if the shell is too slow
+
+# sudo
+zstyle ':zoppo:plugin:sudo' environments 'utils' 'system'
+
+# prompt
+zstyle ':zoppo' prompt 'borra' # choose a theme 'bluesky' or 'darkblood'
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

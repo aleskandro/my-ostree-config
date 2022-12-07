@@ -1,0 +1,16 @@
+function sudo:dispatch:mount {
+  while (( $# != 0 )); do
+    case "$1" in
+      -l|-h|-V|-v) ;;
+      *) return 0 ;;
+    esac
+
+    shift
+  done
+
+  return 1
+}
+
+sudo:dispatch sudo:dispatch:mount mount
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

@@ -1,0 +1,13 @@
+if (( $+commands[unzip] )); then
+  local v=
+  if [[ "$1" == '-v' || "$1" == '--verbose' ]]; then
+    v=v
+    shift
+  fi
+  unzip -l$v "$1"
+else
+  warn 'archive:list: you have to install unzip'
+  return 1
+fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

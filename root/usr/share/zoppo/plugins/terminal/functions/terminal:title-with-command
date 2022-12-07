@@ -1,0 +1,37 @@
+# do not set the window and tab titles in Terminal.app because they are not
+# reset upon command termination.
+if [[ "$TERM_PROGRAM" == 'Apple_Terminal' ]]; then
+  return 1
+fi
+
+emulate -L zsh
+setopt LOCAL_OPTIONS EXTENDED_GLOB BARE_GLOB_QUAL
+
+# get the command name that is under job control
+if [[ "${1[(w)1]}" == (fg|%*)(\;|) ]]; then
+  # get the job name, and, if missing, set it to the default %+
+  local job_name="${${1[(wr)%*(\;|)]}:-%+}"
+
+  # make a local copy for use in the subshell
+  local -A jobtexts_from_parent_shell=(${(kv)jobtexts})
+
+  jobs $job_name 2>/dev/null > >(
+    read index discarded
+    # the index is already surrounded by brackets: [1]
+    terminal:title-with-command "${(e):-\$jobtexts_from_parent_shell$index}"
+  )
+else
+  # set the command name, or in the case of sudo or ssh, the next command
+  local cmd=${${1[(wr)^(*=*|sudo|ssh|-*)]}:t}
+  local truncated_cmd="${cmd/(#m)?(#c15,)/${MATCH[1,12]}...}"
+  unset MATCH
+
+  if [[ "$TERM" == screen* ]]; then
+    terminal:screen:window-title "$truncated_cmd"
+  else
+    terminal:window-title "$cmd"
+    terminal:tab-title "$truncated_cmd"
+  fi
+fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

@@ -1,0 +1,11 @@
+#compdef archive:list
+
+local -a extensions
+
+archive:extensions list extensions
+
+_arguments \
+  '(-v --verbose)'{-v,--verbose}'[verbose output]' \
+  "*::archive file:_files -g '(#i)*.(${(j,|,)extensions})(-.)'" && return 0
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

@@ -1,0 +1,13 @@
+if (( $+commands[tar] )); then
+  if (( $verbose )); then
+    tar xvjf "$1"
+  else
+    tar xjf "$1"
+  fi
+else
+  warn 'extract: you have to install tar'
+  return 1
+fi
+
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

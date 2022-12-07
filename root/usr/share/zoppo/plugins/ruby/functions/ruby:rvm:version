@@ -1,0 +1,7 @@
+if ! is-callable rvm-prompt; then
+  return 1
+fi
+
+rvm-prompt
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

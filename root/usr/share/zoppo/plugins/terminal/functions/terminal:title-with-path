@@ -1,0 +1,20 @@
+setopt LOCAL_OPTIONS EXTENDED_GLOB BARE_GLOB_QUAL
+
+local absolute_path="${${1:a}:-$PWD}"
+
+if [[ "$TERM_PROGRAM" == 'Apple_Terminal' ]]; then
+  printf '\e]7;%s\a' "file://$HOST${absolute_path// /%20}"
+else
+  local abbreviated_path="${absolute_path/#$HOME/~}"
+  local truncated_path="${abbreviated_path/(#m)?(#c15,)/...${MATCH[-12,-1]}}"
+  unset MATCH
+
+  if [[ "$TERM" == screen* ]]; then
+    terminal:screen:window-title "$truncated_path"
+  else
+    terminal:window-title "$abbreviated_path"
+    terminal:tab-title "$truncated_path"
+  fi
+fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

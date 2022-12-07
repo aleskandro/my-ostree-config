@@ -1,0 +1,12 @@
+if (( $+commands[unzip] )); then
+  if (( $verbose )); then
+    unzip -v "$1" -d "${1:t:r}"
+  else
+    unzip "$1" -d "${1:t:r}"
+  fi
+else
+  warn 'extract: you have to install unzip'
+  return 1
+fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

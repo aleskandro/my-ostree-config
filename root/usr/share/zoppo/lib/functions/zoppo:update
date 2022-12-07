@@ -1,0 +1,56 @@
+local force=0
+local verbose=0
+local arg
+
+for arg in "$@"; do
+  case "$arg" in
+    -f|--force)
+      force=1
+      shift
+      ;;
+    -v|--verbose)
+      verbose=1
+      shift
+      ;;
+    -vf|-fv)
+      force=1
+      verbose=1
+      shift
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+if (( ! $force )); then
+  print -n 'Local changes will be lost, update anyway? [y/N] '
+  read answer
+
+  if [[ "$answer" != [Yy] ]]; then
+    return 1
+  fi
+fi
+
+if [[ ! -d "$(path:base)" ]]; then
+  warn 'The base path does not exist.'
+  return 1
+fi
+
+pushd -q "$(path:base)"
+  if (( $verbose )); then
+    git fetch origin && \
+    git reset --hard origin/default
+    git submodule update --init --recursive
+  else
+    {
+      git fetch origin && \
+      git reset --hard origin/default
+      git submodule update --init --recursive
+    } &>/dev/null
+  fi
+popd -q
+
+export ZOPPO_UPDATED=1
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

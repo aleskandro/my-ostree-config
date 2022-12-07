@@ -1,0 +1,15 @@
+local v
+(( $verbose )) && v='-v'
+
+if (( $+commands[bunzip2] )); then
+  bunzip2 ${=v} "$1"
+elif (( $+commands[bzip2] )); then
+  bzip2 ${=v} -d "$1"
+elif (( $+commands[bzcat] )); then
+  bzcat ${=v} "$1" >! "${1:r}"
+else
+  warn 'extract: you have to install bzip2'
+  return 1
+fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

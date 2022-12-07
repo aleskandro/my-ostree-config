@@ -1,0 +1,10 @@
+function sudo:dispatch:packer-color {
+  case "$1" in
+    -S|-S[^si]*|-R*|-U*|-D*) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+sudo:dispatch sudo:dispatch:packer-color packer-color
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

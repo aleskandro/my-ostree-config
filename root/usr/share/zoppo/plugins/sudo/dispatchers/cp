@@ -1,0 +1,36 @@
+function sudo:dispatch:cp {
+  local target
+
+  while true; do
+    if [[ "$1" == -* ]]; then
+      if [[ "$1" == -t ]]; then
+        target=$2
+
+        shift 2
+      else
+        shift;
+      fi
+    else
+      break
+    fi
+  done
+
+  while (( $# > ($#target ? 0 : 1) )); do
+    if [[ -e "$1" && ! -r "$1" ]]; then
+      return 0
+    fi
+
+    shift
+  done
+
+  # TODO: we need something proper to check creation possibility
+  # if [[ ! -w "${target:-$1}" ]]; then
+  #  return 0
+  # fi
+
+  return 1
+}
+
+sudo:dispatch sudo:dispatch:cp cp
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

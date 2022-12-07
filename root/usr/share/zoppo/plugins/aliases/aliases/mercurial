@@ -1,0 +1,12 @@
+alias hgc='hg commit'
+alias hgb='hg branch'
+alias hgba='hg branches'
+alias hgco='hg checkout'
+alias hgd='hg diff'
+alias hged='hg diffmerge'
+alias hgl='hg pull -u'
+alias hgp='hg push'
+alias hgs='hg status'
+alias hgca='hg qimport -r tip ; hg qrefresh -e ; hg qfinish tip'
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

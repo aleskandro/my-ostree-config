@@ -1,0 +1,21 @@
+[submodule "example"]
+	path = example
+	url = git://github.com/zoppo/plugin-example.git
+[submodule "completion/external"]
+	path = completion/external
+  url = git://github.com/zsh-users/zsh-completions.git
+[submodule "syntax-highlight/external"]
+	path = syntax-highlight/external
+	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "history-substring-search/external"]
+	path = history-substring-search/external
+	url = git://github.com/zsh-users/zsh-history-substring-search.git
+[submodule "aliases"]
+	path = aliases
+	url = git://github.com/zoppo/aliases.git
+[submodule "fasd/external"]
+	path = fasd/external
+	url = git://github.com/clvv/fasd.git
+[submodule "sudo"]
+	path = sudo
+	url = git://github.com/zoppo/sudo.git

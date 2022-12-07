@@ -1,0 +1,16 @@
+(( $# == 2 )) || {
+  print "USAGE: $0: <dispatching-function> <command>"
+  return 1
+}
+
+is-callable "$1" || return 1
+
+eval "function ${(q)2} {
+  if ${(q)1} \"\$@\"; then
+    sudo ${(q)2} \"\$@\"
+  else
+    command ${(q)2} \"\$@\"
+  fi
+}"
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

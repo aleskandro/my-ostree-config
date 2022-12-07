@@ -1,0 +1,16 @@
+local verbose
+if [[ "$1" == '-v' || "$1" == '--verbose' ]]; then
+  verbose=0
+  shift
+fi
+
+if (( $+commands[unrar] )); then
+  unrar ${${verbose:+v}:-lb} "$1"
+elif (( $+commands[rar] )); then
+  rar ${${verbose:+v}:-lb} "$1"
+else
+  warn 'archive:list: you have to install unrar or rar'
+  return 1
+fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

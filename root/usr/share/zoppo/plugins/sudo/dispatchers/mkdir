@@ -1,0 +1,18 @@
+function sudo:dispatch:mkdir {
+  while (( $# != 0 )); do
+    case "$1" in
+      -*) ;;
+
+      # TODO: we need something proper to check creation possibility
+      # *) [[ -w "$1" ]] || return 0 ;;
+    esac
+
+    shift
+  done
+
+  return 1
+}
+
+sudo:dispatch sudo:dispatch:mkdir mkdir
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

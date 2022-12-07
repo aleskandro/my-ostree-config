@@ -1,0 +1,15 @@
+local v
+(( $verbose )) && v='-v'
+
+if (( $+commands[unlzma] )); then
+  unlzma ${=v} "$1"
+elif (( $+commands[lzma] )); then
+  lzma ${=v} -d "$1"
+elif (( $+commands[lzcat] )); then
+  lzcat ${=v} "$1" >! "${1:r}"
+else
+  warn 'extract: you have to install lzma'
+  return 1
+fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

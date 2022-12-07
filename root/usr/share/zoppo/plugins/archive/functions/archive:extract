@@ -1,0 +1,80 @@
+local usage="Usage: $0 [-r|--remove] file [file ...]"
+
+(( $+1 )) || {
+  print "$usage"
+  return 1
+}
+
+if [[ "$1" == '-h' || "$1" == '--help' ]]; then
+  print "$usage"
+  return 0
+fi
+
+local remove_archive=0
+local verbose=0
+local arg
+
+for arg in "$@"; do
+  case "$arg" in
+    -r|--remove)
+      remove_archive=1
+      shift
+      ;;
+    -v|--verbose)
+      verbose=1
+      shift
+      ;;
+    -vr|-rv)
+      remove_archive=1
+      verbose=1
+      shift
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+(( $+1 )) || {
+  print "$usage"
+  return 1
+}
+
+local -a extensions
+local archive
+
+archive:extensions extract extensions
+
+for archive ("$argv[@]"); do
+  if [[ ! -s "$archive" ]]; then
+    warn "$0: file not valid: $archive"
+    continue
+  fi
+
+  if [[ ! -r "$archive" ]]; then
+    warn "$0: access denied: $archive"
+    continue
+  fi
+
+  local failure=1
+  local ext
+  for ext ("$extensions[@]"); do
+    if [[ "$archive" == *.$ext ]]; then
+      if archive:extract:$ext "$archive"; then
+        if (( $remove_archive )); then
+          rm -f "$archive"
+        fi
+
+        failure=0
+      fi
+
+      break
+    fi
+  done
+
+  if (( $failure )); then
+    warn "$0: cannot extract: $archive"
+  fi
+done
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

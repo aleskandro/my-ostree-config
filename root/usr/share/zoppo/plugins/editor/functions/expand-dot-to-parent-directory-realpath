@@ -1,0 +1,32 @@
+if [[ "$LBUFFER" = *. ]]; then
+  LBUFFER+='.'
+
+  local -a args
+  args=("${(@z)LBUFFER}")
+
+  if [[ -e "${(Q)args[-1]}" ]]; then
+    local cpath="${${${(Q)args[-1]}:a}%/}/"
+    if [[ "${args[-1]}" =~ '^".*"$' ]]; then
+      args[-1]="${(qqq)cpath}"
+    elif [[ "${args[-1]}" =~ "^'.*'\$" ]]; then
+      args[-1]="${(qq)cpath}"
+    elif [[ "${args[-1]}" =~ "^\\\$'.*'\$" ]]; then
+      args[-1]="${(qqq)cpath}"
+    else
+      args[-1]="${(q)cpath}"
+    fi
+  elif [[ -e "${(Q):-"${args[-1]}\""}" ]]; then
+    args[-1]="${${(qqq):-"${${${(Q):-"${args[-1]}\""}:a}%/}/"}%\"}"
+  elif [[ -e "${(Q):-"${args[-1]}'"}" ]]; then
+    if [[ "${args[-1]}" =~ "^\\\$'.*" ]]; then
+      args[-1]="${${(qqqq):-"${${${(Q):-"${args[-1]}'"}:a}%/}/"}%\'}"
+    else
+      args[-1]="${${(qq):-"${${${(Q):-"${args[-1]}'"}:a}%/}/"}%\'}"
+    fi
+  fi
+  LBUFFER="${(j| |)args}"
+else
+  LBUFFER+='.'
+fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

@@ -1,0 +1,23 @@
+[Unit]
+Description="Enables the rebuilding of initramfs"
+Before=systemd-logind.service network.target multi-user.target systemd-user-sessions.service network-online.target
+After=local-fs.target
+RequiresMountsFor=/boot /sysroot / /usr /etc /var
+ConditionPathExists=!/var/.initramfs-rebuilding-enabled
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/usr/bin/rpm-ostree initramfs --enable --arg=--add --arg=ignition --arg=-i --arg="/etc/config.ign" --arg="/config.ign"
+ExecStartPost=/usr/bin/rpm-ostree kargs --append=mitigations=off --append=ignition.platform.id=file --append=ignition.firstboot=1
+ExecStartPost=/usr/bin/touch /var/.initramfs-rebuilding-enabled
+ExecStartPost=/usr/bin/systemctl reboot
+Restart=on-failure
+RestartSec=30
+TimeoutStartSec=600
+StandardOutput=journal+console
+StandardError=journal+console
+
+[Install]
+RequiredBy=multi-user.target systemd-logind.service network.target network-online.target
+

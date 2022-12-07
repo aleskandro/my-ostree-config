@@ -1,0 +1,7 @@
+if ! is-callable npm; then
+  return 1
+fi
+
+npm -v
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

@@ -1,0 +1,15 @@
+function sudo:dispatch:npm {
+  while (( $# != 0 )); do
+    if [[ "$1" == -g ]]; then
+      return 0
+    fi
+
+    shift
+  done
+
+  return 1
+}
+
+sudo:dispatch sudo:dispatch:npm npm
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

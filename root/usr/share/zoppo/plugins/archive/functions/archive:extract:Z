@@ -1,0 +1,12 @@
+if (( $+commands[uncompress] )); then
+  if (( $verbose )); the
+    uncompress -v "$1"
+  else
+    uncompress "$1"
+  fi
+else
+  warn 'extract: you have to install uncompress (included in gzip)'
+  return 1
+fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

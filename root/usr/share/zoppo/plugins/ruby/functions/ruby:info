@@ -1,0 +1,42 @@
+typeset -gA ruby_info
+
+if ! (( $+commands[ruby] )); then
+  unset ruby_info
+  return 1
+fi
+
+local -a infos
+
+# Caching previous results
+if [[ "$ruby_info[bin]" != "$commands[ruby]" ]]; then
+  infos=(${(f)"$(ruby -e "puts (RUBY_ENGINE == 'ruby' ? 'mri' : RUBY_ENGINE), RUBY_VERSION, RUBY_PATCHLEVEL")"})
+
+  ruby_info[bin]="$commands[ruby]"
+  ruby_info[engine]="$infos[1]"
+  ruby_info[version]="$infos[2]"
+  ruby_info[patchlevel]="$infos[3]"
+
+  # Trying to detect ruby provider
+  if (( $+rvm_path )) && [[ "${rvm_path:a}" == "${${commands[ruby]}[1,${#rvm_path:a}]}" ]]; then
+    ruby_info[provider]='rvm'
+  elif (( $+commands[rbenv] )) && \
+    [[ "${commands[rbenv]:a:h:h}" == "${${commands[ruby]}[1,${#commands[rbenv]:a:h:h}]}" ]]; then
+    ruby_info[provider]='rbenv'
+  else
+    ruby_info[provider]='system'
+  fi
+fi
+
+if (( $+1 )); then
+  local res
+
+  zformat -f res "$1" \
+    e:"$ruby_info[engine]" \
+    v:"$ruby_info[version]" \
+    p:"$ruby_info[patchlevel]" \
+    P:"$ruby_info[provider]"
+
+  print -- "$res"
+fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

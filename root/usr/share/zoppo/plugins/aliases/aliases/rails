@@ -1,0 +1,24 @@
+alias ror='rails'
+alias rorc='_rails-command console'
+alias rordc='_rails-command dbconsole'
+alias rordm='rake db:migrate'
+alias rordM='rake db:migrate db:test:clone'
+alias rordr='rake db:rollback'
+alias rorg='_rails-command generate'
+alias rorl='tail -f log/development.log'
+alias rorlc='rake log:clear'
+alias rorp='_rails-command plugin'
+alias rorr='_rails-command runner'
+alias rors='_rails-command server'
+alias rorsd='_rails-command server --debugger'
+alias rorx='_rails-command destroy'
+
+function _rails-command {
+  if [[ -e "script/server" ]]; then
+    ruby script/"$@"
+  else
+    ruby script/rails "$@"
+  fi
+}
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

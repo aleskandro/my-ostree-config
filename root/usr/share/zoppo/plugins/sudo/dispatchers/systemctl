@@ -1,0 +1,15 @@
+function sudo:dispatch:systemctl {
+  while (( $# != 0 )); do
+    case "$1" in
+      enable|disable|start|stop|restart) return 0 ;;
+    esac
+
+    shift
+  done
+
+  return 1
+}
+
+sudo:dispatch sudo:dispatch:systemctl systemctl
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

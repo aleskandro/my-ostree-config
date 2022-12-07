@@ -1,0 +1,6 @@
+if ! editor:is-loaded "$argv[-1]"; then
+  functions:autoload "$argv[-1]"
+  zle -N "$@"
+fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

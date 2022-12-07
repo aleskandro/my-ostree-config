@@ -1,0 +1,25 @@
+(( $+commands[tar] )) || {
+  warn 'archive:list: you have to install tar'
+  return 1
+}
+
+local verbose
+if [[ "$1" == '-v' || "$1" == '--verbose' ]]; then
+  verbose=0
+  shift
+fi
+
+if tar --xz --help &>/dev/null; then
+  tar --xz -t${verbose:+v}f "$1"
+elif (( $+commands[xz] )); then
+  xz -d -c "$1" | tar t${verbose:+v}f -
+elif (( $+commands[unxz] )); then
+  unxz -c "$1" | tar t${verbose:+v}f -
+elif (( $+commands[xzcat] )); then
+  xzcat "$1" | tar t${verbose:+v}f -
+else
+  warn 'archive:list: you have to install an xz-compatible version of tar or xz'
+  return 1
+fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

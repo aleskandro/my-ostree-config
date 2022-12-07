@@ -1,0 +1,19 @@
+#compdef archive:extract
+
+local -a args opts extensions
+local -a extensions
+
+archive:extensions extract extensions
+
+args=(
+  "*::archive file:_files -g '(#i)*.(${(j,|,)extensions})(-.)'"
+)
+opts=(
+  '(-r --remove)'{-r,--remove}'[remove archive]'
+  '(-v --verbose)'{-v,--verbose}'[verbose extraction]'
+)
+
+
+_arguments -C -s -S : "$opts[@]" "$args[@]" && return 0
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

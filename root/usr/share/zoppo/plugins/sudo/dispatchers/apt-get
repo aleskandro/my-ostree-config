@@ -1,0 +1,10 @@
+function sudo:dispatch:apt-get {
+  case "$1" in
+    source|moo) return 1 ;;
+    *) return 0 ;;
+  esac
+}
+
+sudo:dispatch sudo:dispatch:apt-get apt-get
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

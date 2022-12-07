@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/home/aleskandro/work/coffeeshop/app/models'
+let g:netrw_dirhist_2='/home/aleskandro/work/coffeeshop'
+let g:netrw_dirhist_3='/home/aleskandro/work/coffeeshop/config/environments'
+let g:netrw_dirhist_4='/home/aleskandro/work/coffeeshop/config'
+let g:netrw_dirhist_5='/home/aleskandro/.vim'
+let g:netrw_dirhist_6='/home/aleskandro/coffeeshop'

@@ -1,0 +1,9 @@
+# Disable color.
+if ! zstyle -t ':zoppo:plugin:alias:yaourt' color; then
+  alias pacman='pacman --nocolor'
+fi
+
+# Manages .pac* files.
+alias pacc='pacman -C'
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

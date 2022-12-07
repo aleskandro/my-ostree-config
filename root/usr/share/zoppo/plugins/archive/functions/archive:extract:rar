@@ -1,0 +1,10 @@
+if (( $+commands[unrar] )); then
+  unrar e -ad "$1"
+elif (( $+commands[rar] )); then
+  rar x -ad "$1"
+else
+  warn 'extract: you have to install unrar or rar'
+  return 1
+fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

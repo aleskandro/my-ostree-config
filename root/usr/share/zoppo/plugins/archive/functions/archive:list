@@ -1,0 +1,57 @@
+local usage="Usage: $0 [-v|--verbose] file [file ...]"
+
+(( $+1 )) || {
+  print "$usage"
+  return 1
+}
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+  print "$usage"
+  return 0
+fi
+
+local verbose
+if [[ "$1" == '-v' || "$1" == '--verbose' ]]; then
+  verbose=0
+  shift
+fi
+
+(( $+1 )) || {
+  print "$usage"
+  return 1
+}
+
+local -a extensions
+local archive
+
+archive:extensions list extensions
+
+for archive ("$argv[@]"); do
+  if [[ ! -s "$archive" ]]; then
+    warn "$0: file not valid: $archive"
+    continue
+  fi
+
+  if [[ ! -r "$archive" ]]; then
+    warn "$0: access denied: $archive"
+    continue
+  fi
+
+  local success=1
+  local ext
+  for ext ("$extensions[@]"); do
+    if [[ "$archive" == *.$ext ]]; then
+      if archive:list:$ext ${verbose:+-v} "$archive"; then
+        success=0
+      fi
+
+      break
+    fi
+  done
+
+  if (( $success )); then
+    warn "$0: cannot list: $archive"
+  fi
+done
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

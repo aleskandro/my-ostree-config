@@ -1,0 +1,22 @@
+(( $+commands[tar] )) || {
+  warn "Please install tar first."
+  return 1
+}
+
+local v
+(( $verbose )) && v='v'
+
+if tar --lzma --help &>/dev/null; then
+  tar --lzma -x${v}f "$1"
+elif (( $+commands[lzma] )); then
+  lzma -d -c "$1" | tar x${v}f -
+elif (( $+commands[unlzma] )); then
+  unlzma -c "$1" | tar x${v}f -
+elif (( $+commands[lzcat] )); then
+  lzcat "$1" | tar x${v}f -
+else
+  warn 'extract: you have to install an lzma-compatible version of tar or lzma'
+  return 1
+fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

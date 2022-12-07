@@ -1,0 +1,10 @@
+function sudo:dispatch:yaourt {
+  case "$1" in
+    -S) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+sudo:dispatch sudo:dispatch:yaourt yaourt
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

@@ -1,0 +1,60 @@
+(( $+1 )) || {
+  warn "plugins:load: not enough arguments"
+  return 1
+}
+
+local zplugin
+local PLUGPATH
+
+for zplugin ("$@"); do
+  function {
+    local -a PLUGSPATH
+    zstyle -a ':zoppo:path' plugins PLUGSPATH
+
+    setopt LOCAL_OPTIONS EXTENDED_GLOB BARE_GLOB_QUAL
+
+    PLUGPATHS=(${^PLUGSPATH}/"$zplugin"(/FN))
+    PLUGPATH="$PLUGPATHS[1]"
+  }
+
+  if zstyle -t ":zoppo:internal:plugin:$zplugin" loaded; then
+    continue
+  elif [[ ! -d "$PLUGPATH" ]]; then
+    warn "$0: no such plugin: $zplugin"
+    continue
+  else
+    function {
+      local zfunction
+
+      setopt LOCAL_OPTIONS EXTENDED_GLOB BARE_GLOB_QUAL
+
+      functions:add "$PLUGPATH"/functions(/FN) 2>/dev/null
+
+      for zfunction ("$PLUGPATH"/functions/^([_.]*|README*|after)(.N:t))
+        functions:autoload "$zfunction"
+    }
+
+    zstyle ":zoppo:internal:plugin:$zplugin" path "$PLUGPATH"
+
+    if [[ -s "$PLUGPATH/init.zsh" ]]; then
+      source "$PLUGPATH/init.zsh"
+    fi
+
+    if (( $? == 0 )); then
+      zstyle ":zoppo:internal:plugin:$zplugin" loaded 'yes'
+    else
+      fpath[(r)"$PLUGPATH"/functions]=()
+
+      function {
+        local zfunction
+
+        setopt LOCAL_OPTIONS EXTENDED_GLOB BARE_GLOB_QUAL
+
+        for zfunction ("$PLUGPATH"/functions/^([_.]*|README*)(.N:t))
+          unfunction "$zfunction"
+      }
+    fi
+  fi
+done
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

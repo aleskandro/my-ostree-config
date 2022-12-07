@@ -1,0 +1,8 @@
+if (( $+commands[7za] )); then
+  7za x "$1"
+else
+  warn 'extract: you have to install 7za (7zip or p7zip package)'
+  return 1
+fi
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

@@ -1,0 +1,8 @@
+(( $+2 )) || {
+  warn 'functions:add-relative: not enough arguments'
+  return 1
+}
+
+functions:add "$1/${^${(@)argv[2,-1]}}"
+
+# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}
