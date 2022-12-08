@@ -2,18 +2,51 @@ FROM quay.io/aleskandrox/fedora-kinoite:rawhide
 
 ENTRYPOINT ["/bin/bash"]
 
+# Isolating the packages installation by similarity and estimated frequency of upgrades required per chunk.
+# Although this could be considered an anti-pattern in the container images standard use cases,
+# we'd prefer small layers over large to decrease the probability of updating a single big layer each time we update.
+
 RUN set -x; arch=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/'); cat /etc/os-release \
     && rpm-ostree install \
         https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
         https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
     && rpm-ostree cleanup -m && ostree container commit
 
-RUN set -x; rpm-ostree update; rpm-ostree install \
-        curl gawk git git-lfs htop iftop iputils iproute fping socat mtr net-tools bind-utils iperf iperf3 tcpdump procps \
-        jq ncdu nethogs nmap nmap-ncat openssl openvpn rsync conntrack-tools iputils ethtool strace mtr \
-        qemu-kvm bridge-utils libvirt libvirt-daemon gnupg2 screen subversion skopeo sudo tftp unzip util-linux-user \
-        qemu-user-static wget python3-pip zsh ignition vim neovim mozilla-openh264 \
-    && rpm-ostree cleanup -m && ostree container commit
+RUN set -x; PACKAGES_INSTALL="bridge-utils conntrack-tools curl fping iftop iputils iproute mtr nethogs socat"; \
+    rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
+
+RUN set -x; PACKAGES_INSTALL="net-tools bind-utils iperf iperf3 iputils mtr ethtool tftp wget"; \
+    rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
+
+RUN set -x; PACKAGES_INSTALL="gawk htop ncdu procps strace"; \
+    rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
+
+RUN set -x; PACKAGES_INSTALL="subversion git git-lfs"; \
+    rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
+
+RUN set -x; PACKAGES_INSTALL="gnupg2 openssl openvpn rsync tcpdump nmap nmap-ncat krb5-workstation"; \
+    rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
+
+RUN set -x; PACKAGES_INSTALL="qemu-kvm qemu-user-static "; \
+    rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
+
+RUN set -x; PACKAGES_INSTALL="sudo screen unzip util-linux-user ignition"; \
+    rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
+
+RUN set -x; PACKAGES_INSTALL="zsh"; \
+    rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
+
+RUN set -x; PACKAGES_INSTALL="python3-pip"; \
+    rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
+
+RUN set -x; PACKAGES_INSTALL="skopeo jq"; \
+    rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
+
+RUN set -x; PACKAGES_INSTALL="vim neovim"; \
+    rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
+
+RUN set -x; PACKAGES_INSTALL="mozilla-openh264"; \
+    rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
 
 COPY root/ /
 
