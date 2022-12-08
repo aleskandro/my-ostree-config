@@ -1,5 +1,0 @@
-ruby:info || return 1
-
-print -- "$ruby_info[engine]"
-
-# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}

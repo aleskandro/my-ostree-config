@@ -1,2 +1,0 @@
-zoppo - plugins for zoppo
-=========================

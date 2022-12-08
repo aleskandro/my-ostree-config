@@ -1,3 +1,0 @@
-[[ -n "${(k)options[${${1//[-_]/}:l}]}" ]]
-
-# vim: ft=zsh sts=2 ts=2 sw=2 et fdm=marker fmr={{{,}}}
