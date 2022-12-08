@@ -8,9 +8,6 @@ RUN set -x; arch=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/'); cat /etc/
         https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
     && rpm-ostree cleanup -m && ostree container commit
 
-RUN set -x; rpm-ostree override remove vim-data vim-minimal \
- && rpm-ostree cleanup -m && ostree container commit
-
 RUN set -x; rpm-ostree update; rpm-ostree install \
         curl gawk git git-lfs htop iftop iputils iproute fping socat mtr net-tools bind-utils iperf iperf3 tcpdump procps \
         jq ncdu nethogs nmap nmap-ncat openssl openvpn rsync conntrack-tools iputils ethtool strace \
