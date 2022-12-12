@@ -1,6 +1,6 @@
-# OSTree-native container distribution of configs across personal desktop workstation
+# OSTree-native container distribution of configs across personal desktop workstations
 
-This repository is meant to version my workstations configuration for their OSTree-based Fedora Kinoite installations and to deliver upgrades to those workstation (both packages and host-configuration) by exploiting the OSTree native container feature and a CI based on GitHub actions.
+This repository is meant to version my workstations configuration for their OSTree-based Fedora Kinoite installations and to deliver upgrades to those workstations (both packages and host configuration) by exploiting the OSTree native container feature and a CI based on GitHub actions.
 
 The BaseOS image is built from the original workstation-ostree-config [pagure repository](https://ostreedev.github.io/ostree/) with no modifications and until issues at [^1][^2] are ready.
 
