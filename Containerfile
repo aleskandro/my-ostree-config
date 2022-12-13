@@ -15,7 +15,7 @@ RUN set -x; arch=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/'); cat /etc/
 RUN set -x; PACKAGES_INSTALL="bridge-utils conntrack-tools curl fping iftop iputils iproute mtr nethogs socat"; \
     rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
 
-RUN set -x; PACKAGES_INSTALL="net-tools bind-utils iperf iperf3 iputils mtr ethtool tftp wget"; \
+RUN set -x; PACKAGES_INSTALL="net-tools bind-utils iperf iperf3 iputils mtr ethtool tftp wget ipmitool"; \
     rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
 
 RUN set -x; PACKAGES_INSTALL="gawk htop ncdu procps strace"; \
