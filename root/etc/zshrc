@@ -107,7 +107,7 @@ export EDITOR=vim
 
 source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $ZSH_CUSTOM/plugins/zsh-history-subscring-search/zsh-history-substring-search.zsh
-source $ZSH_CUSTOM/plugins/99magic-dots.zsh
+source $ZSH_CUSTOM/99magic-dots.zsh
 # shellcheck disable=SC2016
 export KUBE_PS1_BINARY=oc
 
