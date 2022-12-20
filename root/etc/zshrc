@@ -70,9 +70,9 @@ ZSH_THEME="gentoo"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git oc kubectl docker docker-compose aws colorize extract z virtualenv urltools history-substring-search)
+plugins=(git oc kubectl docker docker-compose aws colorize extract z virtualenv urltools history-substring-search ssh-agent)
 
-[ -f /etc/preohmyzsh.sh ] && . /etc/.preohmyzsh.sh
+[ -f /etc/preohmyzsh.sh ] && . /etc/preohmyzsh.sh
 [ -f ~/.preohmyzsh.sh ] && . ~/.preohmyzsh.sh
 
 source $ZSH/oh-my-zsh.sh
