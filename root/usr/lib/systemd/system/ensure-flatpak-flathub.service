@@ -1,0 +1,14 @@
+[Unit]
+Description="Adds the flathub remote to the flatpak repo"
+After=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=flatpak remote-add --if-not-exists -v flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
+

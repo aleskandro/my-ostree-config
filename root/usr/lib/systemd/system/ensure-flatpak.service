@@ -1,0 +1,13 @@
+[Unit]
+Description="Ensure a list of Flatpak applications is installed"
+After=ensure-flatpak-flathub.service network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/usr/bin/bash -c '/usr/bin/flatpak install --or-update --noninteractive --assumeyes $(</usr/share/ensure-flatpak/applications.list)'
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
