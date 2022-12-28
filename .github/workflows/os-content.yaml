@@ -12,14 +12,19 @@ on:
 env:
   REGISTRY_USER: aleskandrox
   IMAGE_REGISTRY: quay.io
-  IMAGE_NAME: fedora-kinoite
+  IMAGE_NAME: fedora
   REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
 
 jobs:
   build-os-content:
     if: ${{ github.event_name == 'push' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-    name: Build and Push Fedora Kinoite (OS Content)
+    name: Build and Push Fedora ${{ matrix.variant }} (OS Content)
+    strategy:
+      matrix:
+        variant:
+          - silverblue
+          - kinoite
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -33,13 +38,18 @@ jobs:
         id: build-image
         with:
           image: ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}
-          tags: rawhide-layered rawhide-layered-${{ steps.versioned-tag.outputs.VERSIONED_TAG }}
+          tags: ${{ matrix.variant }}-custom ${{ matrix.variant }}-custom-${{ steps.versioned-tag.outputs.VERSIONED_TAG }}
           containerfiles: |
             ./Containerfile
+          build-args: |
+            BASE_REPO=${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}
+            BASE_TAG=${{ matrix.variant }}-rawhide
       - name: Push to registry
         uses: redhat-actions/push-to-registry@v2
         with:
-          tags: ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:rawhide-layered ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:rawhide-layered-${{ steps.versioned-tag.outputs.VERSIONED_TAG }}
+          tags: >-
+            ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-custom
+            ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-custom-${{ steps.versioned-tag.outputs.VERSIONED_TAG }}
           username: ${{ env.REGISTRY_USER }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 

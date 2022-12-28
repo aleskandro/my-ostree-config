@@ -1,4 +1,6 @@
-FROM quay.io/aleskandrox/fedora-kinoite:rawhide
+ARG BASE_REPO=quay.io/aleskandrox/fedora
+ARG BASE_TAG=kinoite-rawhide
+FROM ${BASE_REPO}:${BASE_TAG}
 
 ENTRYPOINT ["/bin/bash"]
 

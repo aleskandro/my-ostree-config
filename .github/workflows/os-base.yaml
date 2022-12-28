@@ -9,12 +9,12 @@ on:
 env:
   REGISTRY_USER: aleskandrox
   IMAGE_REGISTRY: quay.io
-  IMAGE_NAME: fedora-kinoite
+  IMAGE_NAME: fedora
   REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
 
 jobs:
   build-push-base-os:
-    name: Build and Push Fedora Kinoite (BaseOS)
+    name: Build and Push Fedora ${{ matrix.variant }} (BaseOS)
     runs-on: ubuntu-latest
     container:
       image: quay.io/coreos-assembler/coreos-assembler:latest
@@ -22,6 +22,11 @@ jobs:
       volumes:
         - volume:/workspace
       options: -u root --privileged
+    strategy:
+      matrix:
+        variant: 
+          - silverblue
+          - kinoite
     steps:
       - name: Build and Push
         id: build-step
@@ -32,6 +37,8 @@ jobs:
           cd workstation-ostree-config
           VERSIONED_TAG=$(date -u --iso-8601=minutes | sed 's/://g;s/+.*$//')-$(git rev-parse HEAD)
           echo "VERSIONED_TAG=${VERSIONED_TAG}" >> $GITHUB_OUTPUT
-          rpm-ostree compose image --initialize --format registry fedora-kinoite.yaml ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:rawhide-${VERSIONED_TAG}
-          skopeo copy docker://quay.io/${{ env.REGISTRY_USER }}/fedora-kinoite:rawhide-${VERSIONED_TAG} docker://quay.io/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:rawhide
+          rpm-ostree compose image --initialize --format registry fedora-${{ matrix.variant }}.yaml \
+            ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-rawhide-${VERSIONED_TAG}
+          skopeo copy docker://quay.io/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-rawhide-${VERSIONED_TAG} \
+            docker://quay.io/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-rawhide
 
