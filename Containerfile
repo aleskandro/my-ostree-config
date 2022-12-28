@@ -76,8 +76,8 @@ RUN set -x; \
 RUN set -x; update-crypto-policies --set legacy --no-reload \
  && rpm-ostree cleanup -m && ostree container commit
 
-RUN set -x; SERVICES_ENABLE="rpm-ostreed-automatic.timer initramfs-rebuild.service \
-    ensure-flatpak.service ensure-flatpak-flathub.service"; \
-    sed -i 's/AutomaticUpdatePolicy=.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf \
- && systemctl enable $SERVICES_ENABLE \
+RUN set -x; sed -i \
+      's/AutomaticUpdatePolicy=.*/AutomaticUpdatePolicy=stage/' \
+      /etc/rpm-ostreed.conf \
+ && systemctl preset-all \
  && rpm-ostree cleanup -m && ostree container commit

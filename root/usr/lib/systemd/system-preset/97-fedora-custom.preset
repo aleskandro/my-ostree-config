@@ -1,0 +1,4 @@
+enable ensure-flatpak.service
+enable ensure-flatpak-flathub.service
+disable initramfs-rebuild.service
+enable rpm-ostreed-automatic.timer
