@@ -50,6 +50,10 @@ RUN set -x; PACKAGES_INSTALL="vim neovim"; \
 RUN set -x; PACKAGES_INSTALL="mozilla-openh264"; \
     rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
 
+RUN set -x; if rpm -qa | grep -q gnome-desktop; then \
+    PACKAGES_INSTALL="gnome-tweaks tilix gnome-extensions-app gedit evince"; \
+    rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit; fi
+
 COPY root/ /
 
 RUN set -x; \
