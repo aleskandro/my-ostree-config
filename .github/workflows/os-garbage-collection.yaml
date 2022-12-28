@@ -1,0 +1,52 @@
+name: Garbage collect old images
+on:
+  workflow_dispatch: {}
+  workflow_run:
+    workflows:
+      - Build Base OS (periodic)
+      - Build OS Content
+    types:
+      - completed
+
+env:
+  REGISTRY_USER: aleskandrox
+  IMAGE_REGISTRY: quay.io
+  IMAGE_NAME: fedora
+  REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+  MAX_RETENTION: 10
+
+jobs:
+  garbage-collection:
+    name: Garbage collect tags (${{ matrix.variant }}-${{ matrix.image }})
+    runs-on: ubuntu-latest
+    container:
+      image: quay.io/coreos-assembler/coreos-assembler:latest
+      env: {}
+      volumes:
+        - volume:/workspace
+      options: -u root --privileged
+    strategy:
+      matrix:
+        variant:
+          - silverblue
+          - kinoite
+        image:
+          - rawhide
+          - custom
+    steps:
+      - name: Garbage collect
+        id: garbage-collect
+        run: |
+          podman login ${{ env.IMAGE_REGISTRY }} -u ${{ env.REGISTRY_USER }} -p ${{ secrets.REGISTRY_PASSWORD }} --verbose
+          JSON=$(skopeo list-tags \
+            docker://quay.io/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }} \
+            | jq)
+          jq <<<"$JSON"
+          set -x
+          jq -r '.Tags|sort|.[]|select(.|test("${{ matrix.variant }}-${{ matrix.image }}-[0-9]{4}-[0-9]{2}-[0-9]{2}"))' <<<"$JSON" \
+            | head -n -${{ env.MAX_RETENTION }} | while read -r tag
+            do
+              echo "Removing quay.io/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${tag}"
+              skopeo delete "docker://quay.io/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${tag}"
+            done
+

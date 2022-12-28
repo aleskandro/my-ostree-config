@@ -14,7 +14,6 @@ ExecStartPost=/usr/bin/touch /var/.initramfs-rebuilding-enabled
 ExecStartPost=/usr/bin/systemctl reboot
 Restart=on-failure
 RestartSec=30
-TimeoutStartSec=600
 StandardOutput=journal+console
 StandardError=journal+console
 
