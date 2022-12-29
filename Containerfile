@@ -22,7 +22,7 @@ RUN set -x; PACKAGES_INSTALL="bridge-utils conntrack-tools curl fping iftop iput
 RUN set -x; PACKAGES_INSTALL="net-tools bind-utils iperf iperf3 iputils mtr ethtool tftp wget ipmitool"; \
     rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
 
-RUN set -x; PACKAGES_INSTALL="gawk htop ncdu procps strace"; \
+RUN set -x; PACKAGES_INSTALL="gawk htop ncdu procps strace iotop"; \
     rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
 
 RUN set -x; PACKAGES_INSTALL="subversion git git-lfs"; \

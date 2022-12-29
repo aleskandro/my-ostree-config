@@ -2,9 +2,9 @@ ARG BASE_REPO=registry.fedoraproject.org/fedora-toolbox
 ARG BASE_TAG=testing
 FROM ${BASE_REPO}:${BASE_TAG}
 
-ARG PACKAGES_INSTALL="bridge-utils conntrack-tools curl fping iftop iputils iproute mtr nethogs socat \
+ARG PACKAGES_INSTALL="bridge-utils conntrack-tools curl fping iftop iotop iputils iproute mtr nethogs socat \
     net-tools bind-utils iperf iperf3 iputils mtr ethtool tftp wget ipmitool \
-    gnupg2 openssl openvpn rsync tcpdump nmap nmap-ncat \
+    gnupg2 openssl openvpn rsync tcpdump nmap nmap-ncat crypto-policies \
     gawk htop ncdu procps strace subversion git git-lfs \
     sudo screen unzip util-linux-user ignition \
     zsh python3-pip skopeo jq vim neovim wine"
