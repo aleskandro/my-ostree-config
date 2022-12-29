@@ -56,6 +56,23 @@ RUN set -x; if rpm -qa | grep -q gnome-desktop; then \
     PACKAGES_INSTALL="gnome-tweaks tilix gnome-extensions-app gedit evince"; \
     rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit; fi
 
+# Installing docker-ce nightly: if building on top of Fedora rawhide, there are no repositories for its $releasever value.
+# The below code executes a request to the docker-ce repository root for version $VERSION_ID, initially equal to the
+# Fedora version being built. VERSION_ID decrements, at most 3 times, until the response code of the request is 200.
+# Then, the resulting VERSION_ID statically replaces the $releasever variable in the final repo file.
+RUN set -x; \
+    source /etc/os-release; \
+    for i in 1 2 3 max; do \
+        [ $i != "max" ] || { echo "An error occurred trying to determine the \$VERSION_ID for the Docker-CE repos"; \
+          exit 1; }; \
+        [ x"$(curl -L -s -o /dev/null -w "%{http_code}" \
+              "https://download.docker.com/linux/fedora/${VERSION_ID}")" == x"200" ] && break; \
+        VERSION_ID=$(( VERSION_ID - 1 )); \
+    done; \
+    curl -L https://download.docker.com/linux/fedora/docker-ce.repo | releasever=$VERSION_ID envsubst '$releasever' \
+        | tee /etc/yum.repos.d/docker-ce.repo \
+ && rpm-ostree install docker-ce docker-ce-cli && rpm-ostree cleanup -m && ostree container commit
+
 COPY root/ /
 
 RUN HOME=/tmp RUNZSH=no CHSH=no ZSH=/usr/lib/ohmyzsh \
