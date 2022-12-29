@@ -30,6 +30,7 @@ jobs:
         variant:
           - silverblue
           - kinoite
+          - toolbox
         image:
           - rawhide
           - custom

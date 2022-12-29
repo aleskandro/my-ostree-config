@@ -1,0 +1,47 @@
+name: Build custom toolbox image
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron:  '0 3 */14 * *'
+  workflow_dispatch: {}
+
+env:
+  REGISTRY_USER: aleskandrox
+  IMAGE_REGISTRY: quay.io
+  IMAGE_NAME: fedora
+  REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+
+jobs:
+  build-toolbox-image:
+    runs-on: ubuntu-latest
+    name: Build and Push Fedora toolbox image
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set versioned tag
+        id: versioned-tag
+        run: |
+          VERSIONED_TAG=$(date -u --iso-8601=minutes | sed 's/://g;s/+.*$//')-${GITHUB_SHA}
+          echo "VERSIONED_TAG=${VERSIONED_TAG}" >> $GITHUB_OUTPUT
+      - name: Build image
+        uses: redhat-actions/buildah-build@v2
+        id: build-image
+        with:
+          image: ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}
+          tags: toolbox toolbox-custom-${{ steps.versioned-tag.outputs.VERSIONED_TAG }}
+          containerfiles: |
+            ./toolbox.Containerfile
+          build-args: |
+            BASE_REPO=registry.fedoraproject.org/fedora-toolbox
+            BASE_TAG=testing
+      - name: Push to registry
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          tags: >-
+            ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:toolbox
+            ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:toolbox-custom-${{ steps.versioned-tag.outputs.VERSIONED_TAG }}
+          username: ${{ env.REGISTRY_USER }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+

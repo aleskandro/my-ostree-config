@@ -44,6 +44,7 @@ jobs:
           build-args: |
             BASE_REPO=${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}
             BASE_TAG=${{ matrix.variant }}-rawhide
+            TOOLBOX_IMAGE=quay.io/aleskandrox/fedora:toolbox
       - name: Push to registry
         uses: redhat-actions/push-to-registry@v2
         with:

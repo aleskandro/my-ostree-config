@@ -70,7 +70,7 @@ ZSH_THEME="gentoo"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git oc kubectl docker docker-compose aws colorize extract z virtualenv urltools history-substring-search ssh-agent)
+plugins=(git oc kubectl docker docker-compose aws colorize extract z virtualenv urltools history-substring-search)
 
 [ -f /etc/preohmyzsh.sh ] && . /etc/preohmyzsh.sh
 [ -f ~/.preohmyzsh.sh ] && . ~/.preohmyzsh.sh
@@ -118,6 +118,14 @@ disk_usage() {
     df -h --output=pcent / | tail -n1 | sed 's/%//;s/ / root disk: 0./'
 }
 
-export PROMPT='%(!.%B%F{red}┌.%B%F{green}┌) %{$fg_bold[yellow]%}[$(date)]%B$(uptime)$(mem_usage)$(disk_usage)
-├ %(!.%B%F{red}.%B%F{green}%n@)%m %F{blue}%(!.%1~.%~) $(kube_ps1) ${vcs_info_msg_0_}
+toolbox_ps1() {
+  if [ -f /run/.containerenv ] && [ -f /run/.toolboxenv ]; then
+    echo -ne "\033[35m⬢\033[0m"
+  fi
+}
+
+PROMPT='%(!.%B%F{red}┌.%B%F{green}┌) %{$fg_bold[yellow]%}[$(date)]%B$(uptime)$(mem_usage)$(disk_usage)
+├ %(!.%B%F{red}.%B%F{green}%n@)%m %F{blue}%(!.%1~.%~) $(kube_ps1) ${vcs_info_msg_0_} $(toolbox_ps1)
 %(!.%B%F{red}└.%B%F{green}└) %(?:%B%F{blue}:%B%F{red})%(!.#.$)%k%b%f '
+
+export PROMPT
