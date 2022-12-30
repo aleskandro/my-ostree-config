@@ -38,6 +38,8 @@ jobs:
         id: build-image
         with:
           image: ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}
+          oci: true
+          layers: true
           tags: ${{ matrix.variant }}-custom ${{ matrix.variant }}-custom-${{ steps.versioned-tag.outputs.VERSIONED_TAG }}
           containerfiles: |
             ./Containerfile

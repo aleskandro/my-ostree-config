@@ -30,6 +30,8 @@ jobs:
         id: build-image
         with:
           image: ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}
+          oci: true
+          layers: true
           tags: toolbox toolbox-custom-${{ steps.versioned-tag.outputs.VERSIONED_TAG }}
           containerfiles: |
             ./toolbox.Containerfile
