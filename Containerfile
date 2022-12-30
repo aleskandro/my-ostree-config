@@ -2,8 +2,6 @@ ARG BASE_REPO=quay.io/aleskandrox/fedora
 ARG BASE_TAG=kinoite-rawhide
 FROM ${BASE_REPO}:${BASE_TAG}
 
-ARG TOOLBOX_IMAGE=quay.io/aleskandrox/fedora:toolbox
-
 ENTRYPOINT ["/bin/bash"]
 
 # Isolating the packages installation by similarity and estimated frequency of upgrades required per chunk.
@@ -75,6 +73,12 @@ RUN set -x; \
 
 COPY root/ /
 
+RUN set -x; sed -i \
+      's/AutomaticUpdatePolicy=.*/AutomaticUpdatePolicy=stage/' \
+      /etc/rpm-ostreed.conf \
+ && systemctl preset-all \
+ && rpm-ostree cleanup -m && ostree container commit
+
 RUN HOME=/tmp RUNZSH=no CHSH=no ZSH=/usr/lib/ohmyzsh \
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
     && set -x \
@@ -90,14 +94,9 @@ RUN HOME=/tmp RUNZSH=no CHSH=no ZSH=/usr/lib/ohmyzsh \
     && sed -i 's|^SHELL=.*|SHELL=/usr/bin/zsh|' /etc/default/useradd \
     # ${VARIANT_ID^} is not posix compliant and is not parsed correctly by zsh \
     && sed -i 's/VARIANT_ID^/VARIANT_ID/' /etc/profile.d/toolbox.sh \
-    && echo "image = \"${TOOLBOX_IMAGE}\"" >> /etc/containers/toolbox.conf \
     && rpm-ostree cleanup -m && ostree container commit
 
+ARG TOOLBOX_IMAGE=quay.io/aleskandrox/fedora:toolbox
 RUN set -x; update-crypto-policies --set legacy --no-reload \
- && rpm-ostree cleanup -m && ostree container commit
-
-RUN set -x; sed -i \
-      's/AutomaticUpdatePolicy=.*/AutomaticUpdatePolicy=stage/' \
-      /etc/rpm-ostreed.conf \
- && systemctl preset-all \
+ && echo "image = \"${TOOLBOX_IMAGE}\"" >> /etc/containers/toolbox.conf \
  && rpm-ostree cleanup -m && ostree container commit
