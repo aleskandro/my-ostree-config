@@ -29,8 +29,11 @@ RUN set -x; PACKAGES_INSTALL="subversion git git-lfs"; \
 RUN set -x; PACKAGES_INSTALL="gnupg2 openssl openvpn rsync tcpdump nmap nmap-ncat krb5-workstation"; \
     rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
 
-RUN set -x; PACKAGES_INSTALL="qemu-kvm qemu-user-static "; \
+RUN set -x; PACKAGES_INSTALL="qemu-kvm qemu-user-static"; \
     rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
+
+RUN set -x; PACKAGES_INSTALL="libvirt"; \
+    rpm-ostree install $PACKAGES_INSTALL && rm -rf /var/* && rpm-ostree cleanup -m && ostree container commit
 
 RUN set -x; PACKAGES_INSTALL="sudo screen unzip util-linux-user ignition"; \
     rpm-ostree install $PACKAGES_INSTALL && rpm-ostree cleanup -m && ostree container commit
