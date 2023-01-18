@@ -18,6 +18,9 @@ RUN set -x; arch=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/'); cat /etc/
     && dnf install -y ${PACKAGES_INSTALL} ${PACKAGES_INSTALL_ADDITIONAL} \
     && dnf clean all
 
+RUN dnf -y groupinstall "Development Tools" && dnf clean all
+
+
 COPY root/ /
 
 RUN HOME=/tmp RUNZSH=no CHSH=no ZSH=/usr/lib/ohmyzsh \
