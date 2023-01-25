@@ -49,7 +49,7 @@ exists_or_install_latest_gh_release docker compose ".*linux.*$(uname -m)$" "${LO
 exists_or_install_latest_gh_release mikefarah yq "linux.*$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')$" "${LOCAL_BIN_PATH}"/yq
 exists_or_install_latest_gh_release 1player host-spawn "-$(uname -m)" ${LOCAL_BIN_PATH}/host-spawn
 exists_or_extract_latest_gh_release "${LOCAL_BIN_PATH}/oc" okd-project okd \
-  "client-linux-$(uname -m | sed 's/x86_64//;s/aarch64/arm64/')"
+  "client-linux$(uname -m | sed 's/x86_64/-/;s/aarch64/-arm64-/')4";
 exists_or_extract_latest_gh_release "${LOCAL_BIN_PATH}/dive" wagoodman dive "linux_${LLVM_ARCH}.tar.gz"
 exists_or_extract_latest_gh_release "${LOCAL_BIN_PATH}/chroma" alecthomas chroma "linux-${LLVM_ARCH}.tar.gz"
 exists_or_install_latest_gh_release operator-framework operator-sdk "operator-sdk_linux_${LLVM_ARCH}" ${LOCAL_BIN_PATH}/operator-sdk
