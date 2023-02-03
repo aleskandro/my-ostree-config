@@ -66,14 +66,7 @@ RUN set -x; if rpm -qa | grep -q gnome-desktop; then \
 # Then, the resulting VERSION_ID statically replaces the $releasever variable in the final repo file.
 RUN set -x; \
     source /etc/os-release; \
-    for i in 1 2 3 max; do \
-        [ $i != "max" ] || { echo "An error occurred trying to determine the \$VERSION_ID for the Docker-CE repos"; \
-          exit 1; }; \
-        [ x"$(curl -L -s -o /dev/null -w "%{http_code}" \
-              "https://download.docker.com/linux/fedora/${VERSION_ID}")" == x"200" ] && break; \
-        VERSION_ID=$(( VERSION_ID - 1 )); \
-    done; \
-    curl -L https://download.docker.com/linux/fedora/docker-ce.repo | releasever=$VERSION_ID envsubst '$releasever' \
+    curl -L https://download.docker.com/linux/fedora/docker-ce.repo | releasever=37 envsubst '$releasever' \
         | tee /etc/yum.repos.d/docker-ce.repo \
  && rpm-ostree install docker-ce docker-ce-cli && rpm-ostree cleanup -m && ostree container commit
 
