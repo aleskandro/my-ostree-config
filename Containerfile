@@ -54,7 +54,8 @@ RUN set -x; PACKAGES_INSTALL="mozilla-openh264"; \
     rpm-ostree install $PACKAGES_INSTALL && ostree container commit
 
 RUN set -x; PACKAGES_INSTALL="make gcc"; \
-    rpm-ostree install $PACKAGES_INSTALL && ostree container commit
+    rpm-ostree install $PACKAGES_INSTALL && \
+    ln -s /usr/bin/ld.bfd /usr/bin/ld && ostree container commit
 
 RUN set -x; if rpm -qa | grep -q gnome-desktop; then \
     PACKAGES_INSTALL="gnome-tweaks tilix gnome-extensions-app gedit evince"; \
