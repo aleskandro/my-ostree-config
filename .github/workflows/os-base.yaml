@@ -33,7 +33,10 @@ jobs:
         run: |
           export HOME=/srv
           podman login ${{ env.IMAGE_REGISTRY }} -u ${{ env.REGISTRY_USER }} -p ${{ secrets.REGISTRY_PASSWORD }} --verbose
-          git clone https://pagure.io/workstation-ostree-config.git
+          if [ "${{ matrix.variant }}" == "kinoite" ]; then
+            BRANCH="-b f37"
+          fi
+          git clone $BRANCH https://pagure.io/workstation-ostree-config.git
           cd workstation-ostree-config
           VERSIONED_TAG=$(date -u --iso-8601=minutes | sed 's/://g;s/+.*$//')-$(git rev-parse HEAD)
           echo "VERSIONED_TAG=${VERSIONED_TAG}" >> $GITHUB_OUTPUT

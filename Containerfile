@@ -1,6 +1,7 @@
 ARG BASE_REPO=quay.io/aleskandrox/fedora
 ARG BASE_TAG=kinoite-rawhide
 FROM ${BASE_REPO}:${BASE_TAG}
+ARG BASE_TAG
 
 ENTRYPOINT ["/bin/bash"]
 
@@ -56,7 +57,7 @@ RUN set -x; PACKAGES_INSTALL="mozilla-openh264"; \
 RUN set -x; PACKAGES_INSTALL="make gcc"; \
     rpm-ostree install $PACKAGES_INSTALL && ostree container commit
 
-RUN set -x; if rpm -qa | grep -q gnome-desktop; then \
+RUN set -x; if [[ ${BASE_TAG} = silverblue* ]]; then \
     PACKAGES_INSTALL="gnome-tweaks tilix gnome-extensions-app gedit evince"; \
     rpm-ostree install $PACKAGES_INSTALL && ostree container commit; fi
 
