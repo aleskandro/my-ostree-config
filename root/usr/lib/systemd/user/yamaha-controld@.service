@@ -1,0 +1,17 @@
+[Unit]
+Description="Yamaha RX-V475 controller"
+After=pipewire-pulse.service
+
+[Service]
+Type=simple
+Environment="SCRIPT_ARGS=%I"
+ExecStart=/usr/bin/yamaha-controld.sh $SCRIPT_ARGS
+# Using side-effects of word-splitting as a workaround to pass separate arguments to the script
+Restart=on-failure
+RestartSec=30
+StandardOutput=journal
+StandardError=journal
+# To enable:
+# systemctl --user enable $(systemd-escape --template yamaha-controld@.service "alsa_output.pci-0000_00_1b.0.iec958-stereo trinity AV1")
+[Install]
+WantedBy=graphical-session.target
