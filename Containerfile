@@ -53,7 +53,7 @@ RUN set -x; PACKAGES_INSTALL="vim neovim"; \
 RUN set -x; PACKAGES_INSTALL="mozilla-openh264"; \
     rpm-ostree install $PACKAGES_INSTALL && ostree container commit
 
-RUN set -x; PACKAGES_INSTALL="make gcc"; \
+RUN set -x; PACKAGES_INSTALL="make gcc inotify-tools"; \
     rpm-ostree install $PACKAGES_INSTALL && \
     ln -s /usr/bin/ld.bfd /usr/bin/ld && ostree container commit
 

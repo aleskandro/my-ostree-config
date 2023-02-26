@@ -6,7 +6,7 @@ ARG PACKAGES_INSTALL="bridge-utils conntrack-tools curl fping iftop iotop iputil
     net-tools bind-utils iperf iperf3 iputils mtr ethtool tftp wget ipmitool \
     gnupg2 openssl openvpn rsync tcpdump nmap nmap-ncat crypto-policies \
     gawk htop ncdu procps strace subversion git git-lfs \
-    sudo screen unzip util-linux-user ignition \
+    sudo screen unzip util-linux-user ignition inotify-tools \
     zsh python3-pip skopeo jq vim neovim wine"
 
 ARG PACKAGES_INSTALL_ADDITIONAL=""
