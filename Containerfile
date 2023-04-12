@@ -32,13 +32,13 @@ RUN set -x; PACKAGES_INSTALL="gnupg2 openssl openvpn rsync tcpdump nmap nmap-nca
 RUN set -x; PACKAGES_INSTALL="qemu-kvm qemu-user-static"; \
     rpm-ostree install $PACKAGES_INSTALL && ostree container commit
 
-RUN set -x; PACKAGES_INSTALL="libvirt"; \
+RUN set -x; PACKAGES_INSTALL="libvirt virt-manager virt-install"; \
     rpm-ostree install $PACKAGES_INSTALL && rm -rf /var/* && ostree container commit
 
 RUN set -x; PACKAGES_INSTALL="sudo screen unzip util-linux-user ignition"; \
     rpm-ostree install $PACKAGES_INSTALL && ostree container commit
 
-RUN set -x; PACKAGES_INSTALL="zsh"; \
+RUN set -x; PACKAGES_INSTALL="zsh nmap-ncat socat"; \
     rpm-ostree install $PACKAGES_INSTALL && ostree container commit
 
 RUN set -x; PACKAGES_INSTALL="python3-pip"; \
@@ -53,12 +53,16 @@ RUN set -x; PACKAGES_INSTALL="vim neovim"; \
 RUN set -x; PACKAGES_INSTALL="mozilla-openh264"; \
     rpm-ostree install $PACKAGES_INSTALL && ostree container commit
 
-RUN set -x; PACKAGES_INSTALL="make gcc inotify-tools"; \
+RUN set -x; PACKAGES_INSTALL="make gcc inotify-tools firewall-config"; \
     rpm-ostree install $PACKAGES_INSTALL && \
     ln -s /usr/bin/ld.bfd /usr/bin/ld && ostree container commit
 
 RUN set -x; if rpm -qa | grep -q gnome-desktop; then \
     PACKAGES_INSTALL="gnome-tweaks tilix gnome-extensions-app gedit evince"; \
+    rpm-ostree install $PACKAGES_INSTALL && ostree container commit; fi
+
+RUN set -x; if rpm -qa | grep -q plasma-desktop; then \
+    PACKAGES_INSTALL="kdepim okular"; \
     rpm-ostree install $PACKAGES_INSTALL && ostree container commit; fi
 
 # The repositories for docker-ce are currently pinned to Fedora 37.
