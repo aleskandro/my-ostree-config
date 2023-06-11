@@ -1,0 +1,27 @@
+[Unit]
+Description="Sends an iBeacon every 0.5-1 seconds from hci0 with the given (UUID, Major, Minor) data"
+After=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStartPre=/bin/bash -c '/usr/bin/hciconfig hci0 up'
+# Set the ibeacon packet payload                                    PREAMBLE                      UUID (16B) Major (2B) Minor (2B)  Power (2B two-complement of the transmit power)
+ExecStartPre=/bin/bash -c '/usr/bin/hcitool -i hci0 cmd 0x08 0x0008 1E 02 01 1A 1A FF 4C 00 02 15 $(echo %I | sed "s/.\{2\}/& /g") C8 00'
+# Set the ibeacon advertisement settings    (min 0.5s, max 1s)      min   max   type
+ExecStartPre=/bin/bash -c '/usr/bin/hcitool -i hci0 cmd 0x08 0x0006 20 03 40 06 03 00 00 00 00 00 00 00 00 07 00'
+# Start advertising
+ExecStartPre=/bin/bash -c '/usr/bin/hcitool -i hci0 cmd 0x08 0x000A 01'
+# Stop advertising
+ExecStop=/bin/bash -c '/usr/bin/hcitool -i hci0 cmd 0x08 0x000A 00'
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
+# Enable by executing something like `systemctl enable ibeacon@E20A39F473F54BC4A12F17D1AD07A9610000`, where the argument is the
+# UUID of the beacon you want to send, including the 4 bytes representing the (Major, Minor) tuple at the bottom.
+# References to the commands used are available at:
+# - https://www.bluetooth.com/specifications/specs/core-specification-4-2/
+# - https://www.argenox.com/library/bluetooth-low-energy/ble-advertising-primer/
+# - https://stackoverflow.com/questions/21124993/is-there-a-way-to-increase-ble-advertisement-frequency-in-bluez
