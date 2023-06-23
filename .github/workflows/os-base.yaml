@@ -1,6 +1,6 @@
 # This lacks tests and is a temporary approach until Fedora Kinoite/Silverblue base os container images are shipped
 
-name: Build Base OS (periodic)
+name: Mirror Base OS (periodic)
 on:
   schedule:
     - cron:  '10 5 * * *'
@@ -14,7 +14,7 @@ env:
 
 jobs:
   build-push-base-os:
-    name: Build and Push Fedora ${{ matrix.variant }} (BaseOS)
+    name: Mirror Fedora ${{ matrix.variant }} (BaseOS)
     runs-on: ubuntu-latest
     container:
       image: quay.io/coreos-assembler/coreos-assembler:latest
@@ -28,17 +28,14 @@ jobs:
           - silverblue
           - kinoite
     steps:
-      - name: Build and Push
+      - name: Mirror
         id: build-step
         run: |
           export HOME=/srv
           podman login ${{ env.IMAGE_REGISTRY }} -u ${{ env.REGISTRY_USER }} -p ${{ secrets.REGISTRY_PASSWORD }} --verbose
-          git clone https://pagure.io/workstation-ostree-config.git
-          cd workstation-ostree-config
-          VERSIONED_TAG=$(date -u --iso-8601=minutes | sed 's/://g;s/+.*$//')-$(git rev-parse HEAD)
+          VERSIONED_TAG=$(date -u --iso-8601=minutes | sed 's/://g;s/+.*$//')
           echo "VERSIONED_TAG=${VERSIONED_TAG}" >> $GITHUB_OUTPUT
-          rpm-ostree compose image --initialize --format registry fedora-${{ matrix.variant }}.yaml \
-            ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-rawhide-${VERSIONED_TAG}
+          skopeo copy docker://quay.io/fedora-ostree-desktops/${{ matrix.variant }}:rawhide \
+                      docker://quay.io/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-rawhide-${VERSIONED_TAG}
           skopeo copy docker://quay.io/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-rawhide-${VERSIONED_TAG} \
-            docker://quay.io/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-rawhide
-
+                      docker://quay.io/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-rawhide

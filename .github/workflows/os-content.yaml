@@ -5,7 +5,7 @@ on:
       - master
   workflow_dispatch: {}
   workflow_run:
-    workflows: [Build Base OS (periodic)]
+    workflows: [Mirror Base OS (periodic)]
     types:
       - completed
 
