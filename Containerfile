@@ -58,7 +58,7 @@ RUN set -x; PACKAGES_INSTALL="make gcc inotify-tools firewall-config"; \
     ln -s /usr/bin/ld.bfd /usr/bin/ld && ostree container commit
 
 RUN set -x; if rpm -qa | grep -q gnome-desktop; then \
-    PACKAGES_INSTALL="gnome-tweaks tilix gnome-extensions-app gedit evince"; \
+    PACKAGES_INSTALL="gnome-tweaks tilix gnome-extensions-app gedit evince evolution"; \
     rpm-ostree install $PACKAGES_INSTALL && ostree container commit; fi
 
 RUN set -x; if rpm -qa | grep -q plasma-desktop; then \
