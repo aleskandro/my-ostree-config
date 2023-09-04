@@ -50,7 +50,7 @@ RUN set -x; PACKAGES_INSTALL="skopeo jq"; \
 RUN set -x; PACKAGES_INSTALL="vim neovim"; \
     rpm-ostree install $PACKAGES_INSTALL && ostree container commit
 
-RUN set -x; PACKAGES_INSTALL="make gcc inotify-tools firewall-config"; \
+RUN set -x; PACKAGES_INSTALL="make gcc inotify-tools firewall-config pulseaudio-utils"; \
     rpm-ostree install $PACKAGES_INSTALL && \
     ln -s /usr/bin/ld.bfd /usr/bin/ld && ostree container commit
 
