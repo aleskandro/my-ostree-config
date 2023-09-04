@@ -50,12 +50,15 @@ RUN set -x; PACKAGES_INSTALL="skopeo jq"; \
 RUN set -x; PACKAGES_INSTALL="vim neovim"; \
     rpm-ostree install $PACKAGES_INSTALL && ostree container commit
 
-#RUN set -x; PACKAGES_INSTALL="mozilla-openh264"; \
-#    rpm-ostree install $PACKAGES_INSTALL && ostree container commit
-
 RUN set -x; PACKAGES_INSTALL="make gcc inotify-tools firewall-config"; \
     rpm-ostree install $PACKAGES_INSTALL && \
     ln -s /usr/bin/ld.bfd /usr/bin/ld && ostree container commit
+
+# Remove the replacement for releasever once fedora-cisco-openh264 provides builds for fedora 40.
+RUN set -x; sed -i "s/\$releasever/39/g" /etc/yum.repos.d/fedora-cisco-openh264.repo; \
+    rpm-ostree override remove mesa-va-drivers libavcodec-free \
+    libavfilter-free libavformat-free libavutil-free libpostproc-free libswresample-free libswscale-free \
+    --install ffmpeg --install mesa-va-drivers-freeworld
 
 RUN set -x; if rpm -qa | grep -q gnome-desktop; then \
     PACKAGES_INSTALL="gnome-tweaks tilix gnome-extensions-app gedit evince evolution"; \
