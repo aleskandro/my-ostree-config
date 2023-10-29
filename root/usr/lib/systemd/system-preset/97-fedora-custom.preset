@@ -3,3 +3,4 @@ enable ensure-flatpak-flathub.service
 disable initramfs-rebuild.service
 enable rpm-ostreed-automatic.timer
 enable docker.service
+enable lower-priority.slice

@@ -1,0 +1,9 @@
+[Unit]
+Description=Lower priority slice. It should own any service that should get lower resources.
+Before=slices.target
+StopWhenUnneeded=yes
+
+[Slice]
+CPUWeight=50
+IOWeight=50
+

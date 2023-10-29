@@ -1,6 +1,7 @@
 [Unit]
 Description="Ensure a list of Flatpak applications is installed"
 After=ensure-flatpak-flathub.service network-online.target
+Slice=lower-priority.slice
 
 [Service]
 Type=oneshot
