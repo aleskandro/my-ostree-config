@@ -35,7 +35,7 @@ RUN set -x; PACKAGES_INSTALL="qemu-kvm qemu-user-static"; \
 RUN set -x; PACKAGES_INSTALL="libvirt virt-manager virt-install"; \
     rpm-ostree install $PACKAGES_INSTALL && rm -rf /var/* && ostree container commit
 
-RUN set -x; PACKAGES_INSTALL="sudo screen unzip util-linux-user ignition"; \
+RUN set -x; PACKAGES_INSTALL="sudo screen unzip util-linux-user ignition libcurl-devel"; \
     rpm-ostree install $PACKAGES_INSTALL && ostree container commit
 
 RUN set -x; PACKAGES_INSTALL="zsh nmap-ncat socat"; \
