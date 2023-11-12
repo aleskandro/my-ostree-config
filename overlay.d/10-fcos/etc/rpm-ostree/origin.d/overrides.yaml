@@ -1,0 +1,3 @@
+override-remove:
+ - moby-engine
+ - zincati

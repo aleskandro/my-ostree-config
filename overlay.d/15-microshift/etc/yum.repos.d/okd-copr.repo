@@ -1,0 +1,8 @@
+[okd-copr]
+name=Copr repo for OKD (cri-o)
+baseurl=https://download.copr.fedorainfracloud.org/results/@OKD/okd/fedora-$releasever-$basearch/
+gpgcheck=1
+gpgkey=https://download.copr.fedorainfracloud.org/results/@OKD/okd/pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1

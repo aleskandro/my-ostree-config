@@ -1,0 +1,26 @@
+[Unit]
+Description="Configure firewalld for microshift"
+Documentation="https://access.redhat.com/documentation/en-us/red_hat_build_of_microshift/4.14/html/installing/microshift-install-rpm"
+After=network-online.target
+ConditionPathExists=!/var/.microshift-firewall-configured
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+# TODO: Take some values from the microshift config?
+ExecStartPre=/usr/bin/firewall-cmd --permanent --zone=trusted --add-source=10.42.0.0/16
+ExecStartPre=/usr/bin/firewall-cmd --permanent --zone=trusted --add-source=169.254.169.1
+ExecStartPre=/usr/bin/firewall-cmd --permanent --zone=public --add-port=80/tcp
+ExecStartPre=/usr/bin/firewall-cmd --permanent --zone=public --add-port=443/tcp
+ExecStartPre=/usr/bin/firewall-cmd --permanent --zone=public --add-port=5353/udp
+ExecStartPre=/usr/bin/firewall-cmd --permanent --zone=public --add-port=30000-32767/tcp
+ExecStartPre=/usr/bin/firewall-cmd --permanent --zone=public --add-port=30000-32767/udp
+ExecStartPre=/usr/bin/firewall-cmd --permanent --zone=public --add-port=6443/tcp
+ExecStartPre=/usr/bin/firewall-cmd --permanent --zone=public --add-service=mdns
+ExecStartPre=/usr/bin/firewall-cmd --reload
+ExecStart=/usr/bin/touch /var/.microshift-firewall-configured
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

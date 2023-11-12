@@ -56,7 +56,7 @@ exists_or_install_latest_gh_release operator-framework operator-sdk "operator-sd
 
 # symbolic link for kubectl -> oc
 #
-ln -s "${LOCAL_BIN_PATH}/oc" "${LOCAL_BIN_PATH}/kubectl"
+[ -f "${LOCAL_BIN_PATH}"/kubectl ] || ln -s "${LOCAL_BIN_PATH}/oc" "${LOCAL_BIN_PATH}/kubectl"
 
 [ -f "${LOCAL_BIN_PATH}"/helm ] || {
   export HELM_INSTALL_DIR="${LOCAL_BIN_PATH}"

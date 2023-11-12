@@ -1,3 +1,4 @@
 priv-root/
 tmp/
 *Containerfile
+.github/

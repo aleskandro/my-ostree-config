@@ -1,0 +1,4 @@
+enable firewalld.service
+enable microshift-firewall.service
+disable systemd-resolved.service
+enable fix-resolvconf.service
