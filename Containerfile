@@ -75,7 +75,9 @@ RUN set -x; \
         | tee /etc/yum.repos.d/docker-ce.repo \
  && rpm-ostree install docker-ce docker-ce-cli && ostree container commit
 
-COPY root/ /
+COPY overlay.d/01-common/ /
+COPY overlay.d/05-systemd/ /
+COPY overlay.d/10-desktop/ /
 
 RUN set -x; sed -i \
       's/AutomaticUpdatePolicy=.*/AutomaticUpdatePolicy=stage/' \

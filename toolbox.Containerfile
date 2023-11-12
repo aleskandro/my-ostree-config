@@ -21,7 +21,7 @@ RUN set -x; arch=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/'); cat /etc/
 RUN dnf -y groupinstall "Development Tools" && dnf clean all
 
 
-COPY root/ /
+COPY overlay.d/01-common/ /
 
 RUN HOME=/tmp RUNZSH=no CHSH=no ZSH=/usr/lib/ohmyzsh \
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
