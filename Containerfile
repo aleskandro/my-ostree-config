@@ -52,7 +52,7 @@ RUN set -x; PACKAGES_INSTALL="vim neovim"; \
 
 RUN set -x; PACKAGES_INSTALL="make gcc inotify-tools firewall-config pulseaudio-utils"; \
     rpm-ostree install $PACKAGES_INSTALL && \
-    ln -s /usr/bin/ld.bfd /usr/bin/ld && ostree container commit
+    ln -sf /usr/bin/ld.bfd /usr/bin/ld && ostree container commit
 
 # Remove the replacement for releasever once fedora-cisco-openh264 provides builds for fedora 40.
 RUN set -x; sed -i "s/\$releasever/39/g" /etc/yum.repos.d/fedora-cisco-openh264.repo; \
