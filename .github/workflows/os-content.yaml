@@ -42,7 +42,7 @@ jobs:
           layers: true
           tags: ${{ matrix.variant }}-custom ${{ matrix.variant }}-custom-${{ steps.versioned-tag.outputs.VERSIONED_TAG }}
           containerfiles: |
-            ./Containerfile
+            ./os_desktop.Containerfile
           build-args: |
             BASE_REPO=${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}
             BASE_TAG=${{ matrix.variant }}-rawhide

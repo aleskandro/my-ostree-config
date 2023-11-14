@@ -2,24 +2,17 @@ ARG BASE_REPO=registry.fedoraproject.org/fedora-toolbox
 ARG BASE_TAG=testing
 FROM ${BASE_REPO}:${BASE_TAG}
 
-ARG PACKAGES_INSTALL="bridge-utils conntrack-tools curl fping iftop iotop iputils iproute mtr nethogs socat \
-    net-tools bind-utils iperf iperf3 iputils mtr ethtool tftp wget ipmitool \
-    gnupg2 openssl openvpn rsync tcpdump nmap nmap-ncat crypto-policies \
-    gawk htop ncdu procps strace subversion git git-lfs \
-    sudo screen unzip util-linux-user ignition inotify-tools \
-    zsh python3-pip skopeo jq vim neovim wine"
-
 ARG PACKAGES_INSTALL_ADDITIONAL=""
 
+COPY *.list /tmp/
 RUN set -x; arch=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/'); cat /etc/os-release \
     && dnf install -y \
-        https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+       https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
         https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
-    && dnf install -y ${PACKAGES_INSTALL} ${PACKAGES_INSTALL_ADDITIONAL} \
-    && dnf clean all
+    && dnf install -y $(</tmp/packages.list) ${PACKAGES_INSTALL_ADDITIONAL} \
+    && dnf clean all && rm -rf /tmp/*.list
 
 RUN dnf -y groupinstall "Development Tools" && dnf clean all
-
 
 COPY overlay.d/01-common/ /
 

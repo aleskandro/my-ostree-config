@@ -2,3 +2,4 @@ enable rhcos-usrlocal-selinux-fixup.service
 enable rhcos-selinux-policy-upgrade.service
 enable auditd.service
 enable nmstate.service
+enable okd-selinux.service

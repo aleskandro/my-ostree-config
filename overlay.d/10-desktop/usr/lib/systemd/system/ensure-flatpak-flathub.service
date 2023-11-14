@@ -8,6 +8,7 @@ RemainAfterExit=true
 ExecStart=flatpak remote-add --if-not-exists -v flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 Restart=on-failure
 RestartSec=30
+Slice=lower-priority.slice
 
 [Install]
 WantedBy=multi-user.target

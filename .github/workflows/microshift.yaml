@@ -39,7 +39,7 @@ jobs:
           layers: true
           tags: ${{ matrix.variant }}-custom ${{ matrix.variant }}-custom-${{ steps.versioned-tag.outputs.VERSIONED_TAG }}
           containerfiles: |
-            ./microshift.Containerfile
+            ./os_microshift.Containerfile
       - name: Push to registry
         uses: redhat-actions/push-to-registry@v2
         with:

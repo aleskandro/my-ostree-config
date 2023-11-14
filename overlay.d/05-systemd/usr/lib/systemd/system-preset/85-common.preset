@@ -1,0 +1,3 @@
+enable kargs-mitigations.service
+enable rpm-ostreed-automatic.timer
+enable lower-priority.slice

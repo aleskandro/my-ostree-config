@@ -5,7 +5,7 @@ FROM quay.io/fedora/fedora-minimal:latest as artifacts
 COPY overlay.d/00-temp/ /
 
 RUN microdnf install --setopt=install_weak_deps=False \
-                     -y rpmbuild && chmod +x /usr/bin/fakerpm.sh \
+        -y rpmbuild && chmod +x /usr/bin/fakerpm.sh \
     && mkdir -p /srv/fakerpms/ && pushd /srv/fakerpms/ \
     && /usr/bin/fakerpm.sh openvswitch3.1 \
     # See https://github.com/openshift/microshift/pull/967
@@ -22,15 +22,12 @@ RUN set -x; arch=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/'); cat /etc/
         https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
     && ostree container commit
 
-RUN cat /etc/os-release; rpm-ostree --version; ostree --version; \
-    set -x; PACKAGES_INSTALL="bridge-utils conntrack-tools curl firewalld fping iftop iputils iproute mtr nethogs \
-    socat net-tools bind-utils iperf iperf3 iputils mtr ethtool tftp wget ipmitool gawk htop ncdu procps \
-    strace iotop subversion git git-lfs gnupg2 openssl openvpn rsync tcpdump nmap nmap-ncat krb5-workstation \
-    qemu-kvm qemu-user-static libvirt virt-manager virt-install sudo screen unzip util-linux-user ignition \
-    libcurl-devel zsh nmap-ncat netcat socat python3-pip skopeo jq vim neovim make gcc dhcp-client inotify-tools"; \
-    rpm-ostree install $PACKAGES_INSTALL \
+COPY *.list /tmp/
+RUN set -x; cat /etc/os-release; rpm-ostree --version; ostree --version; \
+    rpm-ostree install $(</tmp/packages.list) \
+    && ln -sf /usr/bin/netcat /usr/bin/nc \
+    && rm -rf /tmp/*.list \
     && rm -rf /var/lib/{unbound,gssproxy,nfs} \
-    && ln -s /usr/bin/netcat /usr/bin/nc \
     && ostree container commit
 
 COPY overlay.d/01-common/ /
@@ -47,6 +44,7 @@ RUN set -x; PACKAGES_INSTALL="NetworkManager-ovs cri-o cri-tools /tmp/rpms/*.rpm
     # ex rebuild will consume the /etc/rpm-ostree/origin.d overrides
     && rpm-ostree ex rebuild \
     && rpm-ostree cleanup -m \
+    && rm -rf /var/lib/{unbound,gssproxy,nfs} \
     && ostree container commit
 
 RUN set -x; sed -i \

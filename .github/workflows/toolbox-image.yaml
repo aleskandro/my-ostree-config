@@ -34,7 +34,7 @@ jobs:
           layers: true
           tags: toolbox toolbox-custom-${{ steps.versioned-tag.outputs.VERSIONED_TAG }}
           containerfiles: |
-            ./toolbox.Containerfile
+            ./os_toolbox.Containerfile
           build-args: |
             BASE_REPO=registry.fedoraproject.org/fedora-toolbox
             BASE_TAG=testing

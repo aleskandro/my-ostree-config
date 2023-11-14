@@ -1,0 +1,7 @@
+disable systemd-resolved.service
+enable crio.service
+enable firewalld.service
+enable fix-resolvconf.service
+enable openvswitch.service
+enable microshift-firewall.service
+enable microshift.service
