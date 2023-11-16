@@ -1,0 +1,6 @@
+[Unit]
+Description=Upgrade and reboot
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/rpm-ostree upgrade --reboot

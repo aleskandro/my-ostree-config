@@ -1,0 +1,9 @@
+[Unit]
+Description=Maintainance window timer to reboot and perform updates from rpm-ostree
+
+[Timer]
+OnCalendar=Sat, *-*-* 03:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
