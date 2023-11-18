@@ -19,4 +19,4 @@ resources:
 images:
   - name: ghcr.io/dexidp/dex
     newName: ghcr.io/dexidp/dex
-    newTag: v2.32.0
+    newTag: v2.37.0
