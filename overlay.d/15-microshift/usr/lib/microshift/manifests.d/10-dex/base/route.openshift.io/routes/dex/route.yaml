@@ -2,6 +2,9 @@ kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name: dex
+  annotations:
+    cert-manager.io/issuer-name: letsencrypt-prod
+    cert-manager.io/issuer-kind: ClusterIssuer
 spec:
   to:
     kind: Service

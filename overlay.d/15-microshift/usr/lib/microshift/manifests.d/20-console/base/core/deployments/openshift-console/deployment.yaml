@@ -100,11 +100,6 @@ spec:
             - mountPath: /service-ca
               name: service-ca
               readOnly: true
-            # TODO: remove this once we have a non-self-signed cert
-            - mountPath: /etc/ssl/certs/ingress-ca.crt
-              name: oauth-proxy-secret
-              subPath: ingress-ca
-              readOnly: true
             - mountPath: /tls
               name: oauth-proxy-tls-secret
               readOnly: true

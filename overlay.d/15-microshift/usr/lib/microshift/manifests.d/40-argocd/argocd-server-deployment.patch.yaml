@@ -10,11 +10,6 @@ spec:
           configMap:
             name: service-ca
             defaultMode: 420
-        # TODO: remove this once we have a non-self-signed cert
-        - name: ingress-ca
-          secret:
-            secretName: argocd-secret
-            defaultMode: 420
       containers:
         - name: argocd-server
           args:
@@ -24,9 +19,4 @@ spec:
             - mountPath: /etc/ssl/certs/service-ca.crt
               name: service-ca
               subPath: service-ca.crt
-              readOnly: true
-            # TODO: remove this once we have a non-self-signed cert
-            - mountPath: /etc/ssl/certs/ingress-ca.crt
-              name: ingress-ca
-              subPath: ca-cert-oidc
               readOnly: true
