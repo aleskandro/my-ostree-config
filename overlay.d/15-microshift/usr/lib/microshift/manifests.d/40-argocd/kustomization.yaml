@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: argocd
+
+resources:
+  - namespace.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+  - base/route.openshift.io/routes/console
+  - base/core/configmaps/service-ca
+  - base/rbac.authorization.k8s.io/clusterrolebindings/argocd-server-cluster-admin
+
+patchesStrategicMerge:
+  - argocd-server-deployment.patch.yaml
+  - argocd-redis-deployment.patch.yaml
+  - argocd-dex-deployment.patch.yaml
+  - argocd-cm-configmap.patch.yaml

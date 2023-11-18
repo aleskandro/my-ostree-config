@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+data:
+  admin.enabled: "false"
+  url: https://console-argocd.apps.openshift.aleskandro.com
+  oidc.config: |
+    name: ArgoCD Dex
+    issuer: $oidc.issuer
+    clientID: argocd
+    clientSecret: $oidc.clientSecret
+    requestedScopes: ["openid", "profile", "email", "groups"]
+    getUserInfo: true
