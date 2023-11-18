@@ -1,0 +1,15 @@
+apiVersion: dex.coreos.com/v1
+kind: OAuth2Client
+metadata:
+  # The name is generated through the FNV non-cryptographic hash function on the client ID.
+  # See https://github.com/aleskandro/my-ostree-config/tree/utils/storagedex
+  # and https://github.com/dexidp/dex/blob/master/storage/kubernetes/client.go#L72-L78
+  # https://github.com/dexidp/dex/blob/master/storage/kubernetes/client.go#L72-L78
+  name: n5ygk3ttnbuwm5bnmnxw443pnrss2mjsgpf7fhheqqrcgji
+  # The oauth2client CRD is namespaced, and dex reads it from the namespace it is running in.
+  namespace: dex
+ID: openshift-console
+Name: OpenShift Console
+Secret: the_secret
+RedirectURIs:
+  - https://web-console.apps.my.base.domain.tld/oauth2/callback

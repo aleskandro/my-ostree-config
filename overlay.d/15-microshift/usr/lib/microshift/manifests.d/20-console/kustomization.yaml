@@ -1,0 +1,32 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - namespace.yaml
+  - base/core/serviceaccounts/openshift-console
+  - base/rbac.authorization.k8s.io/clusterrolebindings/openshift-console-cluster-role-binding
+  - base/core/secrets/openshift-console-secret
+  - base/core/configmaps/service-ca
+  - base/core/services/openshift-console
+  - base/route.openshift.io/routes/web
+  - base/core/deployments/openshift-console
+  # Provided in /etc/microshift/manifests.d/20-console, e.g., by ignition
+  #- 99-oauth-proxy-config.yaml
+  #- 99-oauth-proxy-secret.yaml
+  #- 99-oauth2client.yaml
+
+# The namespace transformer configuration allows not to override the namespace if it is already set in a given object.
+# In particular, dex's oauth2clients must be created in the dex namespace.
+# Since that object is going to be created via other manifests supplied via ignition, we don't need this transformer
+# configuration here, and we can rely on the default namespace transformer
+#transformers:
+#  - namespace.transformer.yaml
+namespace: console
+
+images:
+  - name: quay.io/openshift/origin-console
+    newName: quay.io/openshift/origin-console
+    newTag: 4.14.0
+  - name: quay.io/oauth2-proxy/oauth2-proxy
+    newName: quay.io/oauth2-proxy/oauth2-proxy
+    newTag: v7.5.1

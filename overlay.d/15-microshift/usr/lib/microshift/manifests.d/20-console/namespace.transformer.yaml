@@ -1,0 +1,8 @@
+apiVersion: builtin
+kind: NamespaceTransformer
+metadata:
+  name: notImportantHere
+  namespace: console
+unsetOnly: true
+setRoleBindingSubjects: allServiceAccounts
+# https://github.com/kubernetes-sigs/kustomize/blob/fdf8f44c90f0a8f159cbfccce28d9ab0ab765085/plugin/builtin/namespacetransformer/NamespaceTransformer.go#L4

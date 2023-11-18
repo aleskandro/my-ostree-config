@@ -1,0 +1,15 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: dex
+spec:
+  to:
+    kind: Service
+    name: dex
+    weight: 100
+  port:
+    targetPort: 5556
+  tls:
+    termination: reencrypt
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None

@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dex
+  name: dex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dex
+  template:
+    metadata:
+      labels:
+        app: dex
+    spec:
+      serviceAccountName: dex
+      containers:
+        - image: ghcr.io/dexidp/dex:latest
+          name: dex
+          command:
+            - /usr/local/bin/dex
+            - serve
+            - /etc/dex/cfg/config.yaml
+          ports:
+            - name: https
+              containerPort: 5556
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 128Mi
+          volumeMounts:
+            - name: config
+              mountPath: /etc/dex/cfg
+              readOnly: true
+            - name: tls
+              mountPath: /etc/dex/tls
+              readOnly: true
+            - name: ca
+              mountPath: /etc/dex/ca.crt
+              subPath: service-ca.crt
+              readOnly: true
+          env:
+            - name: GITHUB_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: github-client
+                  key: client-id
+            - name: GITHUB_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: github-client
+                  key: client-secret
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 5556
+              scheme: HTTPS
+      volumes:
+        - name: config
+          configMap:
+            name: dex
+            items:
+              - key: config.yaml
+                path: config.yaml
+        - name: tls
+          secret:
+            secretName: dex-tls
+        - name: ca
+          configMap:
+            name: service-ca

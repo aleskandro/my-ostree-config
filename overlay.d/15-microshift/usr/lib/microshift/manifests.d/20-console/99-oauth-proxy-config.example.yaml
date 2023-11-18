@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oauth-proxy-config
+data:
+  redirect-url: https://web-console.apps.my.base.domain.tld/oauth2/callback
+  oidc-issuer-url: https://dex-dex.apps.openshift.my.base.domain.tld/
