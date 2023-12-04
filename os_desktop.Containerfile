@@ -19,9 +19,7 @@ RUN set -x; cat /etc/os-release; rpm-ostree --version; ostree --version; \
     && rm -rf /var/lib/{unbound,gssproxy,nfs} \
     && ostree container commit
 
-# FIXME: Remove the replacement for releasever once fedora-cisco-openh264 provides builds for fedora 40.
-RUN set -x; sed -i "s/\$releasever/39/g" /etc/yum.repos.d/fedora-cisco-openh264.repo; \
-    rpm-ostree override remove mesa-va-drivers libavcodec-free \
+RUN set -x; rpm-ostree override remove mesa-va-drivers libavcodec-free \
       libavfilter-free libavformat-free libavutil-free libpostproc-free libswresample-free libswscale-free \
       --install ffmpeg --install mesa-va-drivers-freeworld
 
