@@ -27,7 +27,7 @@ RUN set -x; sed -i "s/\$releasever/39/g" /etc/yum.repos.d/fedora-cisco-openh264.
       --install gstreamer1-vaapi --install mesa-vdpau-drivers-freeworld
 
 RUN set -x; if rpm -qa | grep -q gnome-desktop; then \
-    PACKAGES_INSTALL="gnome-tweaks tilix gnome-extensions-app gedit evince evolution"; \
+    PACKAGES_INSTALL="gnome-tweaks tilix gnome-extensions-app gedit evince evolution eog loupe seahorse"; \
     rpm-ostree install $PACKAGES_INSTALL && ostree container commit; fi
 
 RUN set -x; if rpm -qa | grep -q plasma-desktop; then \
