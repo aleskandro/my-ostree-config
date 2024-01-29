@@ -12,12 +12,14 @@ org.chromium.Chromium
 org.chromium.Chromium.Codecs
 org.gimp.GIMP
 org.libreoffice.LibreOffice
-org.octave.Octave
 org.telegram.desktop
 org.videolan.VLC
-org.kde.ktorrent
 org.kde.krdc
 org.octave.Octave
 org.librecad.librecad
 org.kde.konversation
 org.kde.ktorrent
+com.github.tchx84.Flatseal
+com.google.Chrome
+org.bluesabre.MenuLibre
+org.wireshark.Wireshark
