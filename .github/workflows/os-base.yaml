@@ -34,8 +34,13 @@ jobs:
           export HOME=/srv
           podman login ${{ env.IMAGE_REGISTRY }} -u ${{ env.REGISTRY_USER }} -p ${{ secrets.REGISTRY_PASSWORD }} --verbose
           VERSIONED_TAG=$(date -u --iso-8601=minutes | sed 's/://g;s/+.*$//')
+          
+          LATEST_VERSIONED=$(skopeo list-tags \
+            docker://quay.io/fedora-ostree-desktops/${{ matrix.variant }} \
+            | jq -cr '.Tags | sort | .[] | select(contains("rawhide") | not)' | tail -n 1 | cut -f1 -d.)
+          
           echo "VERSIONED_TAG=${VERSIONED_TAG}" >> $GITHUB_OUTPUT
-          skopeo copy docker://quay.io/fedora-ostree-desktops/${{ matrix.variant }}:40 \
+          skopeo copy docker://quay.io/fedora-ostree-desktops/${{ matrix.variant }}:${LATEST_VERSIONED} \
                       docker://quay.io/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-rawhide-${VERSIONED_TAG}
           skopeo copy docker://quay.io/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-rawhide-${VERSIONED_TAG} \
                       docker://quay.io/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-rawhide
