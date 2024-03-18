@@ -35,7 +35,7 @@ jobs:
           podman login ${{ env.IMAGE_REGISTRY }} -u ${{ env.REGISTRY_USER }} -p ${{ secrets.REGISTRY_PASSWORD }} --verbose
           VERSIONED_TAG=$(date -u --iso-8601=minutes | sed 's/://g;s/+.*$//')
           echo "VERSIONED_TAG=${VERSIONED_TAG}" >> $GITHUB_OUTPUT
-          skopeo copy docker://quay.io/fedora-ostree-desktops/${{ matrix.variant }}:rawhide \
+          skopeo copy docker://quay.io/fedora-ostree-desktops/${{ matrix.variant }}:40 \
                       docker://quay.io/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-rawhide-${VERSIONED_TAG}
           skopeo copy docker://quay.io/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-rawhide-${VERSIONED_TAG} \
                       docker://quay.io/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-rawhide
