@@ -6,6 +6,7 @@ ARG TOOLBOX_IMAGE=quay.io/aleskandrox/fedora:toolbox
 ENTRYPOINT ["/bin/bash"]
 
 RUN set -x; arch=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/'); cat /etc/os-release \
+    && ls /etc/yum.repos.d/ && more /etc/yum.repos.d/* \
     && rpm-ostree install \
         https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
         https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
@@ -17,10 +18,10 @@ RUN set -x; cat /etc/os-release; rpm-ostree --version; ostree --version; \
     && ln -sf /usr/bin/ld.bfd /usr/bin/ld \
     && ln -sf /usr/bin/netcat /usr/bin/nc \
     && rm -rf /var/lib/{unbound,gssproxy,nfs} \
-    && ostree container commit
+    && ostree container commit \
+    && ls /etc/yum.repos.d/ && more /etc/yum.repos.d/*
 
-# FIXME: Remove the replacement for releasever once fedora-cisco-openh264 provides builds for fedora 40.
-RUN set -x; sed -i "s/\$releasever/39/g" /etc/yum.repos.d/fedora-cisco-openh264.repo; \
+RUN set -x; \
     rpm-ostree override remove mesa-va-drivers libavcodec-free \
       libavfilter-free libavformat-free libavutil-free libpostproc-free libswresample-free libswscale-free \
       --install ffmpeg --install mesa-va-drivers-freeworld --install gstreamer1-plugins-bad-free-extras \
