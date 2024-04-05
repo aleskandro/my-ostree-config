@@ -1,3 +1,4 @@
 firewall-config
 pulseaudio-utils
 virt-manager
+gpgme-devel
