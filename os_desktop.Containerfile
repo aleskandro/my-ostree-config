@@ -12,6 +12,13 @@ RUN set -x; arch=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/'); cat /etc/
         https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
     && ostree container commit
 
+RUN set -x; \
+    rpm-ostree override remove mesa-va-drivers libavcodec-free libavdevice-free ffmpeg-free \
+      libavfilter-free libavformat-free libavutil-free libpostproc-free libswresample-free libswscale-free \
+      --install ffmpeg --install mesa-va-drivers-freeworld --install gstreamer1-plugins-bad-free-extras \
+      --install gstreamer1-vaapi --install mesa-vdpau-drivers-freeworld
+
+
 COPY *.list /tmp
 RUN set -x; cat /etc/os-release; rpm-ostree --version; ostree --version; \
     rpm-ostree install $(</tmp/packages.list) $(</tmp/packages.virt.list) $(</tmp/packages.desktop.list) \
@@ -21,18 +28,12 @@ RUN set -x; cat /etc/os-release; rpm-ostree --version; ostree --version; \
     && ostree container commit \
     && ls /etc/yum.repos.d/ && more /etc/yum.repos.d/*
 
-RUN set -x; \
-    rpm-ostree override remove mesa-va-drivers libavcodec-free \
-      libavfilter-free libavformat-free libavutil-free libpostproc-free libswresample-free libswscale-free \
-      --install ffmpeg --install mesa-va-drivers-freeworld --install gstreamer1-plugins-bad-free-extras \
-      --install gstreamer1-vaapi --install mesa-vdpau-drivers-freeworld
-
 RUN set -x; if rpm -qa | grep -q gnome-desktop; then \
-    PACKAGES_INSTALL="gnome-tweaks tilix gnome-extensions-app gedit evince evolution eog loupe seahorse"; \
+    PACKAGES_INSTALL="gnome-tweaks tilix gnome-extensions-app gedit evince evolution eog loupe seahorse pipewire-codec-aptx"; \
     rpm-ostree install $PACKAGES_INSTALL && ostree container commit; fi
 
 RUN set -x; if rpm -qa | grep -q plasma-desktop; then \
-      PACKAGES_INSTALL="kdepim okular gwenview"; \
+      PACKAGES_INSTALL="kdepim okular gwenview pipewire-codec-aptx"; \
       rpm-ostree install $PACKAGES_INSTALL && ostree container commit; fi
 
 # The repositories for docker-ce are currently pinned to Fedora 39.

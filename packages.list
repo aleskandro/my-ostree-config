@@ -54,3 +54,10 @@ util-linux-user
 vim
 wget
 zsh
+ffmpegthumbnailer
+heif-pixbuf-loader
+libheif-freeworld
+libheif-tools
+pipewire-codec-aptx
+ffmpegthumbnailer
+intel-media-driver
