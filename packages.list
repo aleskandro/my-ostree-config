@@ -61,3 +61,5 @@ libheif-tools
 pipewire-codec-aptx
 ffmpegthumbnailer
 intel-media-driver
+audacity
+libatomic

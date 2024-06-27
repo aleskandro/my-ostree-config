@@ -29,11 +29,11 @@ RUN set -x; cat /etc/os-release; rpm-ostree --version; ostree --version; \
     && ls /etc/yum.repos.d/ && more /etc/yum.repos.d/*
 
 RUN set -x; if rpm -qa | grep -q gnome-desktop; then \
-    PACKAGES_INSTALL="gnome-tweaks tilix gnome-extensions-app gedit evince evolution eog loupe seahorse pipewire-codec-aptx"; \
+    PACKAGES_INSTALL="gnome-tweaks tilix gnome-extensions-app gedit evince evolution eog loupe seahorse"; \
     rpm-ostree install $PACKAGES_INSTALL && ostree container commit; fi
 
 RUN set -x; if rpm -qa | grep -q plasma-desktop; then \
-      PACKAGES_INSTALL="kdepim okular gwenview pipewire-codec-aptx"; \
+      PACKAGES_INSTALL="kdepim okular gwenview kf5-kimageformats"; \
       rpm-ostree install $PACKAGES_INSTALL && ostree container commit; fi
 
 # The repositories for docker-ce are currently pinned to Fedora 39.
