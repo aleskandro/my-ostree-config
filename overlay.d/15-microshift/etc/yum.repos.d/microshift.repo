@@ -1,6 +1,6 @@
 [microshift]
 name=microshift
 type=rpm-md
-baseurl=https://mirror.openshift.com/pub/openshift-v4/$basearch/microshift/ocp/latest-4.14/el9/os/
+baseurl=https://mirror.openshift.com/pub/openshift-v4/$basearch/microshift/ocp/latest-4.15/el9/os/
 gpgcheck=0
 enabled=1

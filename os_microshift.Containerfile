@@ -69,3 +69,10 @@ RUN HOME=/tmp RUNZSH=no CHSH=no ZSH=/usr/lib/ohmyzsh \
     # ${VARIANT_ID^} is not posix compliant and is not parsed correctly by zsh \
     && sed -i 's/VARIANT_ID^/VARIANT_ID/' /etc/profile.d/toolbox.sh \
     && ostree container commit
+
+# This dir should be created by the microshift package that sets it in the plugins dir for CNI or by crio.
+# Maybe crio created this directory earlier and the microshift devs wanted to maintain it set, but it does not happen anymore.
+# Since the dir doesn't exist and /usr is read-only in FCOS, crio fails to start.
+# https://github.com/openshift/microshift/blob/06e9ae203c157f33d6570153152e2fb360bf8eae/packaging/crio.conf.d/10-microshift_arm64.conf#L18-L20
+RUN mkdir -p /usr/libexec/cni
+

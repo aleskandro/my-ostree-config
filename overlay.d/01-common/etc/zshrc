@@ -129,3 +129,9 @@ PROMPT='%(!.%B%F{red}┌.%B%F{green}┌) %{$fg_bold[yellow]%}[$(date)]%B$(uptime
 %(!.%B%F{red}└.%B%F{green}└) %(?:%B%F{blue}:%B%F{red})%(!.#.$)%k%b%f '
 
 export PROMPT
+
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+        source /etc/profile.d/vte.sh
+fi
+
+alias kns='kubectl config set-context --current --namespace '
