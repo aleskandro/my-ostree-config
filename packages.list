@@ -36,6 +36,7 @@ nmap
 nmap-ncat
 openssl
 openvpn
+patch
 procps
 python3-pip
 rsync
