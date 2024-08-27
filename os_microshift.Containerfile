@@ -76,3 +76,4 @@ RUN HOME=/tmp RUNZSH=no CHSH=no ZSH=/usr/lib/ohmyzsh \
 # https://github.com/openshift/microshift/blob/06e9ae203c157f33d6570153152e2fb360bf8eae/packaging/crio.conf.d/10-microshift_arm64.conf#L18-L20
 RUN mkdir -p /usr/libexec/cni
 
+LABEL quay.expires-after=30d

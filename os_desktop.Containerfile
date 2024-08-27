@@ -73,3 +73,5 @@ RUN HOME=/tmp RUNZSH=no CHSH=no ZSH=/usr/lib/ohmyzsh \
 RUN set -x; update-crypto-policies --set legacy --no-reload \
     && echo "image = \"${TOOLBOX_IMAGE}\"" >> /etc/containers/toolbox.conf \
     && ostree container commit
+
+LABEL quay.expires-after=30d

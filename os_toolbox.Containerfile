@@ -28,4 +28,6 @@ RUN HOME=/tmp RUNZSH=no CHSH=no ZSH=/usr/lib/ohmyzsh \
      /usr/lib/ohmyzsh/custom/plugins/zsh-syntax-highlighting \
     && chsh -s /bin/zsh root \
     && echo 'PATH=~/bin:~/.bin:~/.opt/bin:$PATH' >> /etc/zshenv \
-    && sed -i 's|^SHELL=.*|SHELL=/usr/bin/zsh|' /etc/default/useradd \
+    && sed -i 's|^SHELL=.*|SHELL=/usr/bin/zsh|' /etc/default/useradd
+
+LABEL quay.expires-after=30d

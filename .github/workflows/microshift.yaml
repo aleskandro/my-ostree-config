@@ -48,4 +48,3 @@ jobs:
             ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-custom-${{ steps.versioned-tag.outputs.VERSIONED_TAG }}
           username: ${{ env.REGISTRY_USER }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
-
