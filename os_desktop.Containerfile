@@ -1,5 +1,5 @@
-ARG BASE_REPO=quay.io/aleskandrox/fedora
-ARG BASE_TAG=kinoite-rawhide
+ARG BASE_REPO=quay.io/fedora/fedora-silverblue
+ARG BASE_TAG=40
 FROM ${BASE_REPO}:${BASE_TAG}
 
 ARG TOOLBOX_IMAGE=quay.io/aleskandrox/fedora:toolbox
@@ -36,10 +36,10 @@ RUN set -x; if rpm -qa | grep -q plasma-desktop; then \
       PACKAGES_INSTALL="kdepim okular gwenview kf5-kimageformats"; \
       rpm-ostree install $PACKAGES_INSTALL && ostree container commit; fi
 
-# The repositories for docker-ce are currently pinned to Fedora 39.
+#  | releasever=39 envsubst '$releasever'
 RUN set -x; \
     source /etc/os-release; \
-    curl -L https://download.docker.com/linux/fedora/docker-ce.repo | releasever=39 envsubst '$releasever' \
+    curl -L https://download.docker.com/linux/fedora/docker-ce.repo \
         | tee /etc/yum.repos.d/docker-ce.repo \
     && rpm-ostree install docker-ce docker-ce-cli && ostree container commit
 

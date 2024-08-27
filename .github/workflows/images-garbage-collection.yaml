@@ -3,7 +3,6 @@ on:
   workflow_dispatch: {}
   workflow_run:
     workflows:
-      - Build Base OS (periodic)
       - Build OS Content
     types:
       - completed
@@ -34,7 +33,6 @@ jobs:
           - toolbox
           - coreos-microshift
         image:
-          - rawhide
           - custom
     steps:
       - name: Garbage collect
