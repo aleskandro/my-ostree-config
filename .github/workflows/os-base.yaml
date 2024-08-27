@@ -37,8 +37,8 @@ jobs:
           VERSIONED_TAG=$(date -u --iso-8601=minutes | sed 's/://g;s/+.*$//')
           
           LATEST_VERSIONED=$(skopeo list-tags \
-            docker://quay.io/fedora-ostree-desktops/${{ matrix.variant }} \
-            | jq -cr '.Tags | sort | .[] | select(contains("rawhide") | not)' | tail -n 1 | cut -f1 -d.)
+            docker://quay.io/fedora/fedora-${{ matrix.variant }} \
+            | jq -cr '.Tags | sort | .[] | select(contains("rawhide") | not) | select(contains("latest") | not)' | tail -n 1 | cut -f1 -d.)
           
           echo "VERSIONED_TAG=${VERSIONED_TAG}" >> $GITHUB_OUTPUT
           skopeo copy docker://quay.io/fedora-ostree-desktops/${{ matrix.variant }}:${LATEST_VERSIONED} \
