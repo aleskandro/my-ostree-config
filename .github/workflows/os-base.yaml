@@ -41,7 +41,7 @@ jobs:
             | jq -cr '.Tags | sort | .[] | select(contains("rawhide") | not) | select(contains("latest") | not)' | tail -n 1 | cut -f1 -d.)
           
           echo "VERSIONED_TAG=${VERSIONED_TAG}" >> $GITHUB_OUTPUT
-          skopeo copy docker://quay.io/fedora/fedora-${{ matrix.variant }}:${LATEST_VERSIONED} \
+          skopeo copy docker://quay.io/fedora/fedora-${{ matrix.variant }}:40 \
                       docker://quay.io/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-rawhide-${VERSIONED_TAG}
           skopeo copy docker://quay.io/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-rawhide-${VERSIONED_TAG} \
                       docker://quay.io/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-rawhide
