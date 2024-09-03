@@ -29,7 +29,7 @@ RUN set -x; cat /etc/os-release; rpm-ostree --version; ostree --version; \
     && ls /etc/yum.repos.d/ && more /etc/yum.repos.d/*
 
 RUN set -x; if rpm -qa | grep -q gnome-desktop; then \
-    PACKAGES_INSTALL="gnome-tweaks tilix gnome-extensions-app gedit evince evolution eog loupe seahorse"; \
+    PACKAGES_INSTALL="gnome-tweaks gnome-clocks tilix gnome-extensions-app gedit evince evolution eog loupe seahorse file-roller"; \
     rpm-ostree install $PACKAGES_INSTALL && ostree container commit; fi
 
 RUN set -x; if rpm -qa | grep -q plasma-desktop; then \
