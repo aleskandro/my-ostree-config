@@ -33,7 +33,7 @@ RUN set -x; if rpm -qa | grep -q gnome-desktop; then \
     rpm-ostree install $PACKAGES_INSTALL && ostree container commit; fi
 
 RUN set -x; if rpm -qa | grep -q plasma-desktop; then \
-      PACKAGES_INSTALL="kdepim okular gwenview kf5-kimageformats"; \
+      PACKAGES_INSTALL="kdepim okular gwenview kf5-kimageformats kate kmplot"; \
       rpm-ostree install $PACKAGES_INSTALL && ostree container commit; fi
 
 #  | releasever=39 envsubst '$releasever'
