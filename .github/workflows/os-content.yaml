@@ -6,10 +6,6 @@ on:
     branches:
       - master
   workflow_dispatch: {}
-  workflow_run:
-    workflows: [Mirror Base OS (periodic)]
-    types:
-      - completed
 
 env:
   REGISTRY_USER: aleskandrox
@@ -19,7 +15,6 @@ env:
 
 jobs:
   build-os-content:
-    if: ${{ github.event_name == 'push' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     name: Build and Push Fedora ${{ matrix.variant }} (OS Content)
     strategy:
