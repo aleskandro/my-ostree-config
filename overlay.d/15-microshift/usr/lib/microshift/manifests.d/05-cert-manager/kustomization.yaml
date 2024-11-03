@@ -5,4 +5,4 @@ namespace: cert-manager
 
 resources:
   - https://github.com/cert-manager/cert-manager/releases/download/v1.13.2/cert-manager.yaml
-  - https://github.com/cert-manager/openshift-routes/releases/latest/download/cert-manager-openshift-routes.yaml
+  - https://github.com/cert-manager/openshift-routes/releases/download/v0.6.0-alpha.0/cert-manager-openshift-routes.yaml
