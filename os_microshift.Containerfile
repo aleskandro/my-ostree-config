@@ -7,8 +7,6 @@ COPY overlay.d/00-temp/ /
 RUN microdnf install --setopt=install_weak_deps=False \
         -y rpmbuild && chmod +x /usr/bin/fakerpm.sh \
     && mkdir -p /srv/fakerpms/ && pushd /srv/fakerpms/ \
-    && /usr/bin/fakerpm.sh openvswitch3.3 \
-    # See https://github.com/openshift/microshift/pull/967
     && /usr/bin/fakerpm.sh openshift-clients
     # Prefer to use the clients from the OKD's GitHub release page
 
