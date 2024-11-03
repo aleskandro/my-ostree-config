@@ -5,3 +5,5 @@ enable fix-resolvconf.service
 enable openvswitch.service
 enable microshift-firewall.service
 enable microshift.service
+enable sshd.service
+disable zincati.service

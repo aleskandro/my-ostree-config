@@ -4,7 +4,7 @@ metadata:
   name: argocd-cm
 data:
   admin.enabled: "false"
-  url: https://console-argocd.apps.openshift.aleskandro.com
+  #url: set in the ignition to the route
   oidc.config: |
     name: ArgoCD Dex
     issuer: $oidc.issuer
