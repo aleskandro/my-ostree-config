@@ -34,7 +34,7 @@ COPY overlay.d/10-fcos/ /
 COPY overlay.d/15-microshift/ /
 COPY --from=artifacts /srv/fakerpms/ /tmp/rpms/
 
-RUN set -x; PACKAGES_INSTALL="NetworkManager-ovs cri-o cri-tools /tmp/rpms/*.rpm"; \
+RUN set -x; PACKAGES_INSTALL="NetworkManager-ovs /tmp/rpms/*.rpm"; \
     rpm-ostree install $PACKAGES_INSTALL \
     && rpm-ostree install microshift \
     && ls -l /usr/sbin/ovs-vswitchd \
