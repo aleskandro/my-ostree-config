@@ -1,5 +1,5 @@
-ARG BASE_REPO=registry.fedoraproject.org/fedora-toolbox
-ARG BASE_TAG=testing
+ARG BASE_REPO=quay.io/fedora/fedora-toolbox
+ARG BASE_TAG=latest
 FROM ${BASE_REPO}:${BASE_TAG}
 
 ARG PACKAGES_INSTALL_ADDITIONAL=""
