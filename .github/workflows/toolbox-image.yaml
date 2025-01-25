@@ -36,8 +36,8 @@ jobs:
           containerfiles: |
             ./os_toolbox.Containerfile
           build-args: |
-            BASE_REPO=registry.fedoraproject.org/fedora-toolbox
-            BASE_TAG=testing
+            BASE_REPO=quay.io/fedora/fedora-toolbox
+            BASE_TAG=latest
       - name: Push to registry
         uses: redhat-actions/push-to-registry@v2
         with:
