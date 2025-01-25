@@ -12,7 +12,7 @@ RUN set -x; arch=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/'); cat /etc/
     && dnf install -y $(</tmp/packages.list) ${PACKAGES_INSTALL_ADDITIONAL} \
     && dnf clean all && rm -rf /tmp/*.list
 
-RUN dnf -y groupinstall "Development Tools" && dnf clean all
+RUN dnf -y group install "Development Tools" && dnf clean all
 
 COPY overlay.d/01-common/ /
 
