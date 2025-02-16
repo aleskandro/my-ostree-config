@@ -3,4 +3,4 @@ Description=Upgrade and reboot
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/rpm-ostree upgrade --reboot
+ExecStart=/bin/bash -c "/usr/bin/rpm-ostree upgrade; /usr/bin/rpm-ostree status --pending-exit-77; [ $? -eq 77 ] && /usr/bin/systemctl reboot"
