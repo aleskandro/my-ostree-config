@@ -1,5 +1,5 @@
 ARG BASE_REPO=quay.io/fedora/fedora-silverblue
-ARG BASE_TAG=40
+ARG BASE_TAG=41
 FROM ${BASE_REPO}:${BASE_TAG}
 
 ARG TOOLBOX_IMAGE=quay.io/aleskandrox/fedora:toolbox
