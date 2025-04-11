@@ -14,7 +14,6 @@ cmake
 code
 file-roller
 ghostwriter
-mozilla-openh264
 perl-Image-ExifTool
 plasma-sdk
 python3-devel
