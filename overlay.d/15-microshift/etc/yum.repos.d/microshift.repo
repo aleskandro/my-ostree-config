@@ -4,3 +4,11 @@ type=rpm-md
 baseurl=https://mirror.openshift.com/pub/openshift-v4/$basearch/microshift/ocp/latest-4.17/el9/os/
 gpgcheck=0
 enabled=1
+
+[crio]
+name=cri-o
+type=rpm-md
+baseurl=https://mirror.openshift.com/pub/openshift-v4/$basearch/dependencies/rpms/4.17-el9-beta/
+gpgcheck=0
+enabled=1
+includepkgs=cri-o, cri-tools
