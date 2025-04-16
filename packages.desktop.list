@@ -11,6 +11,7 @@ bpftool
 bpftrace
 cabal-install
 cmake
+code
 file-roller
 ghostwriter
 perl-Image-ExifTool
