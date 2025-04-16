@@ -74,6 +74,4 @@ RUN set -x; update-crypto-policies --set legacy --no-reload \
     && echo "image = \"${TOOLBOX_IMAGE}\"" >> /etc/containers/toolbox.conf \
     && ostree container commit
 
-RUN rpm-ostree override remove noopenh264 --install mozilla-openh264
-
 LABEL quay.expires-after=30d
