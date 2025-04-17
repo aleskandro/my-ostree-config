@@ -74,4 +74,9 @@ RUN set -x; update-crypto-policies --set legacy --no-reload \
     && echo "image = \"${TOOLBOX_IMAGE}\"" >> /etc/containers/toolbox.conf \
     && ostree container commit
 
+RUN rpm-ostree override remove noopenh264 --install mozilla-openh264 && ostree container commit
+
+RUN PACKAGES_INSTALL="avahi-compat-libdns_sd bpftool bpftrace cmake file-roller ghostwriter perl-Image-ExifTool \
+      plasma-sdk python3-devel python3-pyarrow qjackctl reaver"; \
+    rpm-ostree install $PACKAGES_INSTALL && ostree container commit
 LABEL quay.expires-after=30d
