@@ -43,8 +43,8 @@ exists_or_install_http() {
 
 exists_or_install_http "${LOCAL_BIN_PATH}/docker-machine-driver-kvm2" \
   "https://storage.googleapis.com/minikube/releases/latest/docker-machine-driver-kvm2"
-exists_or_install_http "${LOCAL_BIN_PATH}"/minikube \
-  "https://storage.googleapis.com/minikube/releases/latest/minikube-${LLVM_ARCH}"
+#exists_or_install_http "${LOCAL_BIN_PATH}"/minikube \
+#   "https://storage.googleapis.com/minikube/releases/latest/minikube-${LLVM_ARCH}"
 exists_or_install_latest_gh_release docker compose ".*linux.*$(uname -m)$" "${LOCAL_BIN_PATH}"/docker-compose
 exists_or_install_latest_gh_release mikefarah yq "linux.*$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')$" "${LOCAL_BIN_PATH}"/yq
 exists_or_install_latest_gh_release 1player host-spawn "-$(uname -m)" ${LOCAL_BIN_PATH}/host-spawn
