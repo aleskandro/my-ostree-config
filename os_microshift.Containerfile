@@ -37,8 +37,6 @@ COPY --from=artifacts /srv/fakerpms/ /tmp/rpms/
 RUN set -x; PACKAGES_INSTALL="NetworkManager-ovs /tmp/rpms/*.rpm"; \
     rpm-ostree install $PACKAGES_INSTALL \
     && rpm-ostree install microshift \
-    && ls -l /usr/sbin/ovs-vswitchd \
-    # && ln -s /usr/sbin/ovs-vswitchd.dpdk /usr/sbin/ovs-vswitchd \
     && rm -rf /tmp/rpms \
     # ex rebuild will consume the /etc/rpm-ostree/origin.d overrides
     && rpm-ostree ex rebuild \
