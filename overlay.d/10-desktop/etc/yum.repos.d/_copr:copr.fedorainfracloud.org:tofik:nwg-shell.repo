@@ -1,0 +1,44 @@
+[copr:copr.fedorainfracloud.org:tofik:nwg-shell]
+name=Copr repo for nwg-shell owned by tofik
+baseurl=https://download.copr.fedorainfracloud.org/results/tofik/nwg-shell/fedora-$releasever-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://download.copr.fedorainfracloud.org/results/tofik/nwg-shell/pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1
+
+[coprdep:copr.fedorainfracloud.org:erikreider:SwayNotificationCenter]
+name=Copr copr.fedorainfracloud.org/tofik/nwg-shell runtime dependency #1 - erikreider/SwayNotificationCenter
+baseurl=https://download.copr.fedorainfracloud.org/results/erikreider/SwayNotificationCenter/fedora-$releasever-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://download.copr.fedorainfracloud.org/results/erikreider/SwayNotificationCenter/pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1
+
+[coprdep:copr.fedorainfracloud.org:mochaa:gtk-session-lock]
+name=Copr copr.fedorainfracloud.org/tofik/nwg-shell runtime dependency #3 - mochaa/gtk-session-lock
+baseurl=https://download.copr.fedorainfracloud.org/results/mochaa/gtk-session-lock/fedora-$releasever-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://download.copr.fedorainfracloud.org/results/mochaa/gtk-session-lock/pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1
+
+[coprdep:copr.fedorainfracloud.org:tofik:sway]
+name=Copr copr.fedorainfracloud.org/tofik/nwg-shell runtime dependency #2 - tofik/sway
+baseurl=https://download.copr.fedorainfracloud.org/results/tofik/sway/fedora-$releasever-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://download.copr.fedorainfracloud.org/results/tofik/sway/pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1
+includepkgs=nwg-displays

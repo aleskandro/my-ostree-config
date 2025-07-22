@@ -18,15 +18,24 @@ RUN set -x; \
       --install ffmpeg --install mesa-va-drivers-freeworld --install gstreamer1-plugins-bad-free-extras \
       --install gstreamer1-vaapi --install mesa-vdpau-drivers-freeworld
 
+COPY overlay.d/01-common/ /
+COPY overlay.d/05-systemd/ /
+COPY overlay.d/10-desktop/ /
 
-COPY *.list /tmp
+COPY packagaes.list /tmp
+COPY packages.virt.list /tmp
 RUN set -x; cat /etc/os-release; rpm-ostree --version; ostree --version; \
-    rpm-ostree install $(</tmp/packages.list) $(</tmp/packages.virt.list) $(</tmp/packages.desktop.list) \
+    rpm-ostree install $(</tmp/packages.list) $(</tmp/packages.virt.list) \
+    && ostree container commit
+
+COPY packages.desktop.list /tmp
+RUN set -x; cat /etc/os-release; rpm-ostree --version; ostree --version; \
+    rpm-ostree install $(</tmp/packages.desktop.list) \
     && ln -sf /usr/bin/ld.bfd /usr/bin/ld \
     && ln -sf /usr/bin/netcat /usr/bin/nc \
     && rm -rf /var/lib/{unbound,gssproxy,nfs} \
-    && ostree container commit \
-    && ls /etc/yum.repos.d/ && more /etc/yum.repos.d/*
+    && ostree container commit
+
 
 RUN set -x; if rpm -qa | grep -q gnome-desktop; then \
     PACKAGES_INSTALL="gnome-tweaks gnome-clocks tilix gnome-extensions-app gedit evince evolution eog loupe seahorse file-roller"; \
@@ -42,10 +51,6 @@ RUN set -x; \
     curl -L https://download.docker.com/linux/fedora/docker-ce.repo \
         | tee /etc/yum.repos.d/docker-ce.repo \
     && rpm-ostree install docker-ce docker-ce-cli && ostree container commit
-
-COPY overlay.d/01-common/ /
-COPY overlay.d/05-systemd/ /
-COPY overlay.d/10-desktop/ /
 
 RUN set -x; sed -i \
       's/AutomaticUpdatePolicy=.*/AutomaticUpdatePolicy=stage/' \

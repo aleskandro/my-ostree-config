@@ -1,0 +1,10 @@
+[copr:copr.fedorainfracloud.org:erikreider:SwayNotificationCenter]
+name=Copr repo for SwayNotificationCenter owned by erikreider
+baseurl=https://download.copr.fedorainfracloud.org/results/erikreider/SwayNotificationCenter/fedora-$releasever-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://download.copr.fedorainfracloud.org/results/erikreider/SwayNotificationCenter/pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1
