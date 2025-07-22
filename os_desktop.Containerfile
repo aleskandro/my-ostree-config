@@ -22,7 +22,7 @@ COPY overlay.d/01-common/ /
 COPY overlay.d/05-systemd/ /
 COPY overlay.d/10-desktop/ /
 
-COPY packagaes.list /tmp
+COPY packages.list /tmp
 COPY packages.virt.list /tmp
 RUN set -x; cat /etc/os-release; rpm-ostree --version; ostree --version; \
     rpm-ostree install $(</tmp/packages.list) $(</tmp/packages.virt.list) \
