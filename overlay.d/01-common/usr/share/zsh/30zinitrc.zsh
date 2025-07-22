@@ -53,6 +53,7 @@ exists_or_extract_latest_gh_release "${LOCAL_BIN_PATH}/oc" okd-project okd \
 exists_or_extract_latest_gh_release "${LOCAL_BIN_PATH}/dive" wagoodman dive "linux_${LLVM_ARCH}.tar.gz"
 exists_or_extract_latest_gh_release "${LOCAL_BIN_PATH}/chroma" alecthomas chroma "linux-${LLVM_ARCH}.tar.gz"
 exists_or_install_latest_gh_release operator-framework operator-sdk "operator-sdk_linux_${LLVM_ARCH}" ${LOCAL_BIN_PATH}/operator-sdk
+exists_or_extract_latest_gh_release ${LOCAL_BIN_PATH}/k9s derailed k9s k9s_Linux_${LLVM_ARCH}.tar.gz\$ 
 
 # symbolic link for kubectl -> oc
 #
