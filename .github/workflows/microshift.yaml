@@ -5,7 +5,7 @@ on:
       - master
   workflow_dispatch: {}
   schedule:
-    - cron:  '11 5 * * *'
+    - cron:  '10 5 * * *'
 
 
 env:
