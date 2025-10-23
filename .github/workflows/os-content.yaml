@@ -25,6 +25,39 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Buildah configuration
+        run: |
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          conf=/etc/containers/storage.conf
+          target=/mnt/containers/storage
+
+          sudo mkdir -p "$target"
+          sudo chown -R "$(id -u):$(id -g)" /mnt
+
+          sudo awk -v g="$target" '
+            BEGIN { s=0 }
+            /^\[storage\]/ { s=1; print; next }
+            s && /^graphroot/ { print "graphroot = \"" g "\""; s=0; next }
+            s && /^driver/    { print "driver = \"overlay\""; next }
+            s && /^runroot/   { print "runroot = \"/run/containers/storage\""; next }
+            { print }
+            END {
+              if (!s) next
+              if (!seen) {
+                print "driver = \"overlay\""
+                print "runroot = \"/run/containers/storage\""
+                print "graphroot = \"" g "\""
+              }
+            }
+          ' "$conf" 2>/dev/null | sudo tee "$conf" >/dev/null || sudo tee "$conf" >/dev/null <<EOF
+          [storage]
+          driver = "overlay"
+          runroot = "/run/containers/storage"
+          graphroot = "$target"
+          EOF
+          cat $conf
       - name: Set versioned tag
         id: versioned-tag
         run: |
