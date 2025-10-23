@@ -3,7 +3,7 @@ bridge-utils
 conntrack-tools
 crypto-policies
 curl
-dhcp-client
+dstat
 ethtool
 firewalld
 fping
@@ -11,6 +11,7 @@ gawk
 gcc
 git
 git-lfs
+
 gnupg2
 htop
 iftop
@@ -32,12 +33,15 @@ neovim
 net-tools
 netcat
 nethogs
+nload
 nmap
 nmap-ncat
+nvtop
 openssl
 openvpn
 patch
 procps
+procps-ng
 python3-pip
 rsync
 screen
@@ -46,6 +50,7 @@ socat
 strace
 subversion
 sudo
+sysstat
 tcpdump
 telnet
 tftp
@@ -57,10 +62,5 @@ wget
 zsh
 ffmpegthumbnailer
 heif-pixbuf-loader
-libheif-freeworld
 libheif-tools
-pipewire-codec-aptx
-ffmpegthumbnailer
-intel-media-driver
-audacity
 libatomic

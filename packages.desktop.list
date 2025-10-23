@@ -38,13 +38,13 @@ inxi
 jetbrains-mono-fonts
 kitty
 kvantum
+libheif-freeworld
 libva-utils
 loupe
 meson
 mousepad
 network-manager-applet
 NetworkManager-tui
-nvtop
 nwg-displays
 nwg-look
 pam-devel
@@ -67,3 +67,7 @@ wlogout
 wol
 xdg-desktop-portal-wlr
 yad
+pipewire-codec-aptx
+ffmpegthumbnailer
+intel-media-driver
+audacity

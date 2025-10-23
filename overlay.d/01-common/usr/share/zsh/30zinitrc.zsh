@@ -54,7 +54,8 @@ exists_or_extract_latest_gh_release "${LOCAL_BIN_PATH}/dive" wagoodman dive "lin
 exists_or_extract_latest_gh_release "${LOCAL_BIN_PATH}/chroma" alecthomas chroma "linux-${LLVM_ARCH}.tar.gz"
 exists_or_install_latest_gh_release operator-framework operator-sdk "operator-sdk_linux_${LLVM_ARCH}" ${LOCAL_BIN_PATH}/operator-sdk
 exists_or_extract_latest_gh_release ${LOCAL_BIN_PATH}/k9s derailed k9s k9s_Linux_${LLVM_ARCH}.tar.gz\$ 
-
+# https://github.com/helmfile/helmfile/releases/download/v1.1.7/helmfile_1.1.7_linux_amd64.tar.gz
+exists_or_extract_latest_gh_release "${LOCAL_BIN_PATH}/helmfile" helmfile helmfile "linux_${LLVM_ARCH}.tar.gz"
 # symbolic link for kubectl -> oc
 #
 [ -f "${LOCAL_BIN_PATH}"/kubectl ] || ln -s "${LOCAL_BIN_PATH}/oc" "${LOCAL_BIN_PATH}/kubectl"
