@@ -1,5 +1,5 @@
 ARG BASE_REPO=quay.io/fedora/fedora-coreos
-ARG BASE_TAG=next
+ARG BASE_TAG=stable
 FROM quay.io/fedora/fedora-minimal:latest as artifacts
 
 COPY overlay.d/00-temp/ /
