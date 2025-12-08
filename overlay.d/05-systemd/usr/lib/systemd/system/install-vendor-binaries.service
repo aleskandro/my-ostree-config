@@ -1,0 +1,15 @@
+[Unit]
+Description="Install vendor binaries"
+
+[Service]
+Type=oneshot
+Slice=lower-priority.slice
+RemainAfterExit=yes
+ExecStart="/usr/bin/zsh /usr/bin/install-vendor-binaries.sh"
+Restart=on-failure
+RestartSec=30
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

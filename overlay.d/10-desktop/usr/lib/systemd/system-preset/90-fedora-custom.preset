@@ -1,3 +1,4 @@
 enable ensure-flatpak.service
 enable ensure-flatpak-flathub.service
 enable docker.service
+enable install-vendor-binaries-desktop.service
