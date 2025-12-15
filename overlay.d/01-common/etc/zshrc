@@ -134,4 +134,43 @@ if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
         source /etc/profile.d/vte.sh
 fi
 
+alias kgctx='kubectl config get-contexts'
+alias kctx='kubectl config use-context '
 alias kns='kubectl config set-context --current --namespace '
+
+show_systemd_failures() {
+    systemctl show '*.service' \
+      -p Id \
+      -p ActiveState \
+      -p SubState \
+      -p NRestarts \
+      -p StartLimitHit \
+      --no-page "${@}" \
+    | awk -F= '
+      /^Id=/ {id=$2}
+      /^ActiveState=/ {a=$2}
+      /^SubState=/ {s=$2}
+      /^NRestarts=/ {r=$2}
+      /^StartLimitHit=/ {l=$2}
+      /^$/ {
+        if (a=="failed" || r>0 || l=="yes") {
+          printf "%-45s state=%-8s sub=%-15s restarts=%-4s startLimit=%s\n",
+                 id, a, s, r, l
+        }
+      }
+    '
+}
+print -P "%F{cyan}========================================%f"
+print -P "%F{cyan}+++%f      %BSystemd Service Health%b      %F{cyan}+++%f"
+print -P "%F{cyan}+++%f  %F{yellow}failed units and restart loops%f  %F{cyan}+++%f"
+print -P "%F{cyan}========================================%f"
+print -P ""
+print -P "%F{red}+++         SYSTEM services          +++%f"
+show_systemd_failures --system
+print -P "%F{red}+++       END SYSTEM services      +++%f"
+if [[ "$(id -u)" != "0" ]]; then
+  print -P ""
+  print -P "%F{green}+++          USER services           +++%f"
+  show_systemd_failures --user
+  print -P "%F{green}+++        END USER services        +++%f"
+fi
