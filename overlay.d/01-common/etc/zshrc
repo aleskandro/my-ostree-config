@@ -167,10 +167,10 @@ print -P "%F{cyan}========================================%f"
 print -P ""
 print -P "%F{red}+++         SYSTEM services          +++%f"
 show_systemd_failures --system
-print -P "%F{red}+++       END SYSTEM services      +++%f"
+print -P "%F{red}+++       END SYSTEM services        +++%f"
 if [[ "$(id -u)" != "0" ]]; then
   print -P ""
   print -P "%F{green}+++          USER services           +++%f"
   show_systemd_failures --user
-  print -P "%F{green}+++        END USER services        +++%f"
+  print -P "%F{green}+++        END USER services         +++%f"
 fi
