@@ -4,7 +4,7 @@ Description="Install vendor binaries for desktop"
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart="/usr/bin/zsh /usr/bin/install-vendor-binaries-desktop.sh"
+ExecStart=/usr/bin/zsh "/usr/bin/install-vendor-binaries-desktop.sh"
 Restart=on-failure
 RestartSec=30
 StandardOutput=journal
