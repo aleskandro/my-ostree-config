@@ -153,7 +153,7 @@ show_systemd_failures() {
       /^NRestarts=/ {r=$2}
       /^StartLimitHit=/ {l=$2}
       /^$/ {
-        if (a=="failed" || r>0 || l=="yes") {
+        if (a=="failed" || a=="activating" || r>3 || l=="yes") {
           printf "%-45s state=%-8s sub=%-15s restarts=%-4s startLimit=%s\n",
                  id, a, s, r, l
         }
