@@ -9,7 +9,6 @@ samba
 adobe-source-code-pro-fonts
 akonadiconsole
 amule
-blueman
 btop
 calibre
 cava
@@ -29,10 +28,6 @@ google-noto-sans-cjk-fonts
 gtk-layer-shell
 gtk3-devel
 gvfs-mtp
-hypridle
-hyprland
-hyprlock
-hyprpolkitagent
 inkscape
 inxi
 jetbrains-mono-fonts
@@ -45,8 +40,6 @@ meson
 mousepad
 network-manager-applet
 NetworkManager-tui
-nwg-displays
-nwg-look
 pam-devel
 pamixer
 pavucontrol
@@ -54,16 +47,8 @@ pulseaudio-libs-devel
 python3-pyquery
 qt6ct
 qv4l2
-rofi-wayland
-swappy
-sway
-swaylock
-SwayNotificationCenter
-swww
 typescript
 v4l-utils
-waybar
-wlogout
 wol
 xdg-desktop-portal-wlr
 yad
