@@ -30,6 +30,9 @@ RUN HOME=/tmp RUNZSH=no CHSH=no ZSH=/usr/lib/ohmyzsh \
     && echo 'PATH=~/bin:~/.bin:~/.opt/bin:$PATH' >> /etc/zshenv \
     && sed -i 's|^SHELL=.*|SHELL=/usr/bin/zsh|' /etc/default/useradd
 
+RUN zsh -xc 'source /usr/lib/ohmyzsh/custom/30zinitrc.zsh; source /usr/bin/install-vendor-binaries.zsh' \
+    /usr/local/bin/helm plugin install https://github.com/databus23/helm-diff
+
 RUN dnf install -y python3 python3-pip python3-devel && dnf clean all
 
 # Core Python tools for debugging, profiling, and benchmarking
@@ -42,8 +45,6 @@ RUN pip install --no-cache-dir -U \
     # perfetto-client \
     && pip cache purge
 
-RUN zsh /usr/lib/ohmyzsh/custom/30zinitrc.zsh; \
-    /usr/local/bin/helm plugin install https://github.com/databus23/helm-diff
 
 ENV VLLM_TRACE_PATH=/tmp/vllm_trace.json \
     CUDA_LAUNCH_BLOCKING=0 \
