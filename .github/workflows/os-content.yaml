@@ -8,7 +8,7 @@ on:
   workflow_dispatch: {}
 
 env:
-  REGISTRY_USER: ${{ secrets.REGISTRY }}
+  REGISTRY_USER: ${{ secrets.REGISTRY_USER }}
   IMAGE_REGISTRY: ${{ secrets.IMAGE_REGISTRY }}
   IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
   REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
