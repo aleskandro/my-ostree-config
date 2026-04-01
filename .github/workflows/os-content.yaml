@@ -8,9 +8,9 @@ on:
   workflow_dispatch: {}
 
 env:
-  REGISTRY_USER: aleskandrox
-  IMAGE_REGISTRY: quay.io
-  IMAGE_NAME: fedora
+  REGISTRY_USER: ${{ secrets.REGISTRY }}
+  IMAGE_REGISTRY: ${{ secrets.IMAGE_REGISTRY }}
+  IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
   REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
 
 jobs:
@@ -21,7 +21,6 @@ jobs:
       matrix:
         variant:
           - silverblue
-          - kinoite
     steps:
       - name: Checkout
         uses: actions/checkout@v3
