@@ -7,7 +7,7 @@ ConditionPathExists=!/var/.mitigations-kargs
 [Service]
 Type=oneshot
 RemainAfterExit=true
-ExecStartPre=/usr/bin/rpm-ostree kargs --replace=mitigations=off
+ExecStartPre=/usr/bin/rpm-ostree kargs --append-if-missing=mitigations=off
 ExecStart=/usr/bin/touch /var/.mitigations-kargs
 Restart=on-failure
 RestartSec=30
