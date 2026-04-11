@@ -24,7 +24,7 @@ jobs:
           images: ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}
           tags: |
             type=raw,value=latest
-            type=raw,value={{sha}}-{{date 'iso8601'}}
+            type=raw,value={{date 'YYYYMMDD-HHmmss'}}-{{sha}}
       - name: Checkout
         uses: actions/checkout@v6
       - name: Login to Docker Hub
