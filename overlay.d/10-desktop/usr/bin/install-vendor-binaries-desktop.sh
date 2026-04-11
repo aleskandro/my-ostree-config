@@ -1,6 +1,6 @@
 #!/usr/bin/zsh
 
-source /etc/zshrc
+. /usr/bin/_common_vendor_binaries.zsh
 
 [ "$(id -u)" = "0" ] && LOCAL_BIN_PATH=/usr/local/bin || LOCAL_BIN_PATH=~/.local/bin
 LLVM_ARCH="$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')"
