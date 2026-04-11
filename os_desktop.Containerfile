@@ -16,7 +16,7 @@ RUN set -x; \
     rpm-ostree override remove mesa-va-drivers libavcodec-free libavdevice-free ffmpeg-free \
       libavfilter-free libavformat-free libavutil-free libpostproc-free libswresample-free libswscale-free \
       --install ffmpeg --install mesa-va-drivers-freeworld --install gstreamer1-plugins-bad-free-extras \
-      --install gstreamer1-vaapi --install mesa-vdpau-drivers-freeworld
+      --install gstreamer1-vaapi
 
 COPY overlay.d/01-common/ /
 COPY overlay.d/05-systemd/ /
