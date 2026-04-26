@@ -1,84 +1,49 @@
-name: Build coreos-microshift
+name: Build Microshift
 on:
-  #push:
-  #  branches:
-  #    - master
+  schedule:
+    - cron: '0 4 * * *'
+  push:
+    branches:
+      - master
   workflow_dispatch: {}
-  #schedule:
-  #  - cron:  '10 5 * * *'
-
 
 env:
-  REGISTRY_USER: aleskandrox
-  IMAGE_REGISTRY: quay.io
-  IMAGE_NAME: fedora
+  REGISTRY_USER: ${{ secrets.REGISTRY_USER }}
+  IMAGE_REGISTRY: ${{ secrets.IMAGE_REGISTRY }}
+  IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
   REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
 
 jobs:
-  build-coreos-microshift:
-    if: ${{ github.event_name == 'push' || github.event.workflow_run.conclusion == 'success' }}
+  docker:
     runs-on: ubuntu-latest
-    name: Build and Push Fedora ${{ matrix.variant }} (OS Content)
-    strategy:
-      matrix:
-        variant:
-          - coreos-microshift
     steps:
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}
+          tags: |
+            type=raw,value=microshift-latest
+            type=raw,value=microshift-{{date 'YYYYMMDD-HHmmss'}}-{{sha}}
       - name: Checkout
-        uses: actions/checkout@v3
-      - name: Set versioned tag
-        id: versioned-tag
-        run: |
-          VERSIONED_TAG=$(date -u --iso-8601=minutes | sed 's/://g;s/+.*$//')-${GITHUB_SHA}
-          echo "VERSIONED_TAG=${VERSIONED_TAG}" >> $GITHUB_OUTPUT
-      - name: Buildah configuration
-        run: |
-          #!/usr/bin/env bash
-          set -euo pipefail
-
-          conf=/etc/containers/storage.conf
-          target=/mnt/containers/storage
-
-          sudo mkdir -p "$target"
-          sudo chown -R "$(id -u):$(id -g)" /mnt
-
-          sudo awk -v g="$target" '
-            BEGIN { s=0 }
-            /^\[storage\]/ { s=1; print; next }
-            s && /^graphroot/ { print "graphroot = \"" g "\""; s=0; next }
-            s && /^driver/    { print "driver = \"overlay\""; next }
-            s && /^runroot/   { print "runroot = \"/run/containers/storage\""; next }
-            { print }
-            END {
-              if (!s) next
-              if (!seen) {
-                print "driver = \"overlay\""
-                print "runroot = \"/run/containers/storage\""
-                print "graphroot = \"" g "\""
-              }
-            }
-          ' "$conf" 2>/dev/null | sudo tee "$conf" >/dev/null || sudo tee "$conf" >/dev/null <<EOF
-          [storage]
-          driver = "overlay"
-          runroot = "/run/containers/storage"
-          graphroot = "$target"
-          EOF
-          cat $conf
-      - name: Build OS content
-        uses: redhat-actions/buildah-build@v2
-        id: build-image
+        uses: actions/checkout@v6
+      - name: Login to Docker Hub
+        uses: docker/login-action@v4
         with:
-          image: ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}
-          oci: true
-          layers: true
-          tags: ${{ matrix.variant }}-custom ${{ matrix.variant }}-custom-${{ steps.versioned-tag.outputs.VERSIONED_TAG }}
-          containerfiles: |
-            ./os_microshift.Containerfile
-      - name: Push to registry
-        uses: redhat-actions/push-to-registry@v2
-        with:
-          tags: >-
-            ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-custom
-            ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-custom-${{ steps.versioned-tag.outputs.VERSIONED_TAG }}
-          username: ${{ env.REGISTRY_USER }}
+          username: ${{ secrets.REGISTRY_USER }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Build and push
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          platforms: linux/amd64
+          build-args: |
+            BASE_REPO=quay.io/fedora/fedora-coreos
+            TOOLBOX_IMAGE=quay.io/aleskandrox/fedora:toolbox
+          file: ./os_microshift.Containerfile
